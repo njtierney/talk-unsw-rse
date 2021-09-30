@@ -103,11 +103,314 @@ class: inverse, middle, center
 
 ---
 
-Put More slides here.
+
+---
+class: inverse, middle, centre
+
+.huge[
+(My) Background
+]
+
+???
+
+ I want to talk a bit about where I've started from, because I think it might be useful to understand my perspective, and why I'm interested in doing these things.
+
+---
+
+## Background: Undergraduate
+
+.pull-left.large[
+Undergraduate in Psychology
+
+- Statistics
+- Experiment Design
+- Cognitive Theory
+- Neurology
+- Humans
+]
+
+.pull-right[
+```{r psych, out.width = "80%"}
+include_graphics("imgs/psy_brain.png")
+```
+]
+
+---
+
+## Background: Honours
+
+.left-code.medium[
+Psychophysics: illusory contours in 3D
+
+```{r phil-grove, out.width = "50%"}
+include_graphics("imgs/phil-grove.jpeg")
+```
+
+Phil Grove
+
+]
+
+.right-plot[
+```{r kanizsa-triangle}
+include_graphics("imgs/kanizsa-triangle.png")
+```
+]
+
+---
+
+## Background: Undergraduate
+
+.left-code.medium[
+```{r christina-lee, out.width = "50%"}
+include_graphics("imgs/christina-lee.jpeg")
+```
+
+Christina Lee
+
+]
+
+.right-plot.medium[
+> If every psychologist in the world delivered gold standard smoking cessation therapy, the rate of smoking would still increase. You need to change policy to make change. To make effective policy, you need to have good data, and do good statistics.
+]
+
+???
+
+I discovered an interest in public health and statistics.
+
+---
+
+## Background: PhD
+
+.pull-left.large[
+- "Ah, statistics, everything is black and white!
+- "There's always an answer"
+- "data in, answer out"
+]
+
+
+.pull-right[
+```{r bw-mountains}
+include_graphics("imgs/bw-mountains.jpg")
+```
+
+]
+
+???
+
+I started a PhD in statistics at QUT, under (now distinguished) Professor Kerrie Mengersen, Looking at people's health over time.
+
+- There were several things that I noticed:
+  - There were equations, but not as many clear-cut, black and white answers
+  
+---
+
+## Background: PhD
+
+.pull-left.large[
+
+- Data is really messy
+- Missing values are frustrating
+- How to Explore data?
+
+]
+
+.pull-right[
+```{r explorer}
+include_graphics("imgs/explorer.jpg")
+```
+
+]
+
+
+  
+---
+
+## Background: PhD - But in psych
+
+.pull-left.large[
+- Focus on experiment design
+- No focus on exploring data
+- Exploring data felt...wrong?
+- But it was so critical.
+]
+
+.pull-right[
+```{r sound-barrier}
+include_graphics("imgs/sound-barrier.jpg")
+```
+
+]
+
+
+---
+
+## (My personal) motivation
+
+.large[
+- A lot of research in new statistical methods - imputation, inference, prediction
+- Not much research on how we explore our data, and the methods that we use to do this.
+]
+
+---
+
+## (My personal) motivation
+
+.pull-left[
+```{r bw-bridge}
+include_graphics("imgs/bw-bridge.jpg")
+```
+
+]
+
+.pull-right.large[
+  > Focus on building a bridge across a river. Less focus on **how** it is built, and the **tools** used.
+]
+
+???
+
+- I became very interested in how we explore our data - exploratory data analysis.
+
+---
+class: inverse, middle, center
+
+.huge[
+My research:
+
+Design and improve tools for (exploratory) data analysis
+]
+
+---
+    
+# EDA: Exploratory Data Analysis
+
+.large[
+> ...EDA is an approach to analyzing data sets to summarize their main characteristics, often with visual methods. (Wikipedia)
+
+John Tukey, Frederick Mosteller, Bill Cleveland, Dianne Cook, Heike Hoffman, Rob Hyndman, Hadley Wickham
+]
+
+---
+
+# EDA: Why it's worth it
+
+--
+
+```{r dino-saurus}
+include_graphics("gifs/dino-saurus.gif")
+```
+
+-- From ["Same Stats, Different Graphs: Generating Datasets with Varied Appearance and Identical Statistics through Simulated Annealing"](https://www.autodeskresearch.com/publications/samestats)
+
+---
+class: inverse, middle, center
+
+
+```{r learn-more, echo = FALSE, out.width = "70%"}
+include_graphics("imgs/hex-visdat-and-naniar.png")
+```
+
+.pull-left[
+.center[
+.hugew[
+[visdat.njtierney.com](https://visdat.njtierney.com)
+]
+]
+]
+
+.pull-right[
+.center[
+.hugew[
+[naniar.njtierney.com](https://naniar.njtierney.com)
+]
+]
+]
+
+---
+
+## `visdat`
+
+.pull-left[
+```{r show-visdat-hex}
+include_graphics("imgs/hex-visdat.png")
+```
+]
+
+.pull-right[
+
+[![rOpenSci Badge](https://badges.ropensci.org/87_status.svg)](https://github.com/ropensci/onboarding/issues/87)[![JOSS status](http://joss.theoj.org/papers/c85f57adbc565b064fb4bfc9b59a1b2a/status.svg)](http://joss.theoj.org/papers/c85f57adbc565b064fb4bfc9b59a1b2a)[![DOI](https://zenodo.org/badge/50553382.svg)](https://zenodo.org/badge/latestdoi/50553382)
+
+> published under "visdat: Visualising Whole Data Frames" in the Journal of Open Source Software
+
+]
 
 ---
 
 
+## `visdat::vis_dat(airquality)`
+
+```{r show-visdat, fig.height = 3.5, fig.width = 8, out.width = "150%"}
+vis_dat(airquality)
+```
+
+
+---
+
+## `visdat::vis_miss(airquality)`
+
+```{r show-vis-miss, fig.height = 3.5, fig.width = 8, out.width = "150%"}
+vis_miss(airquality)
+```
+
+
+---
+
+## `naniar`
+
+.left-code[
+```{r show-naniar-hex}
+include_graphics("imgs/hex-naniar.png")
+```
+]
+
+.right-plot.large[
+  
+Tierney, NJ. Cook, D. "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations." [[Pre-print](https://arxiv.org/abs/1809.02264)]
+
+]
+
+---
+
+## `naniar::gg_miss_var(airquality)`
+
+```{r gg-miss-var, fig.height = 3.5, fig.width = 8, out.width = "150%"}
+gg_miss_var(airquality)
+```
+
+
+---
+
+## `naniar::gg_miss_upset(airquality)`
+
+```{r gg-miss-upset, fig.height = 3.5, fig.width = 8, out.width = "150%"}
+gg_miss_upset(airquality)
+```
+
+---
+
+- Slides on using `brolgar` - to go from messy spaghetti, to different samples, to focussed and coordinated sampling/arranging.
+
+
+Put More slides here.
+
+---
+
+---
+
+Twitter thread containing resources to read
+
+https://twitter.com/nj_tierney/status/1440562571447193608
+
+---
 
 > The incentive structures of academic statistics still signal that mathematical statistics and the creation of new models and inferential procedures are more valuable than work related to data manipulation, visualisation, and programming. This is reflected in the content of for-credit courses, qualifying exams, and standards for funding and promotion.... It can be very difficult to  present modern data scientific work as impactful scholarly activity, when the system still  defines that primarily as theory and methodology papers.
 
