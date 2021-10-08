@@ -95,14 +95,25 @@ nipa <- list(red = "#c03018",
 ---
 class: inverse, middle, center
 
-# Intro
+# What is the point of this talk?
+
+---
+# What is the point of this talk?
+
+- Explain what a research software engineer does
+- Why we need research software in academia
+- The history of research software in academia
+- Why we need to consider software as academic output
+- What I do in a day to day role
+- What Academia, and you, can do to help
+
+???
+
+Basically I think that there
 
 ---
 
 # Background
-
----
-
 
 ---
 class: inverse, middle, centre
@@ -412,23 +423,43 @@ https://twitter.com/nj_tierney/status/1440562571447193608
 
 ---
 
+# Why we need to consider software as academic output
+
+
+---
+# Changing how we think about a problem 
+
+*gif of scotty saying, "I didn't think about space being the thing that is moving!"*
+
+>  Users often remark on the ease of  manipulating data with dplyr and it is natural to wonder if perhaps the task itself is trivial.  We claim it is not. Many probability challenges become dramatically easier, once you strike  upon the "right" notation. In both cases, what feels like a matter of notation or syntax is  really a more about exploiting the "right" abstraction.
+
+-- Hadley Wickham & Jenny Bryan
+
+---
+
+# The relationship between software, interface, notation, design, and proofs.
+
+Understanding how complex things can be represented in simpler ways is a useful contribution.
+
+Notation and interface helps us do more, and think clearly.
+
+There's a nice example of this with Rob Hyndman and Baki Billah's paper, ["Unmasking the theta method"](- Why we need to consider software as academic output).
+
+> The "Theta method" of forecasting performed particularly well in the M3- competition and is therefore of interest to forecast practitioners. The description of the method given by Assimakopoulos and Nikolopoulos (2000) involves several pages of algebraic manipulation and is difficult to comprehend. We show that the method can be expressed much more simply; furthermore we show that the forecasts obtained are equivalent to simple exponential smoothing with drift.
+
+---
+# What does academia value?
+
 > The incentive structures of academic statistics still signal that mathematical statistics and the creation of new models and inferential procedures are more valuable than work related to data manipulation, visualisation, and programming. This is reflected in the content of for-credit courses, qualifying exams, and standards for funding and promotion.... It can be very difficult to  present modern data scientific work as impactful scholarly activity, when the system still  defines that primarily as theory and methodology papers.
 
 -- Hadley Wickham & Jenny Bryan
 
 ---
 
-> The basic practices of modularity, testing, version control, packaging, 
-and interface design are not mere niceties. They determine whether data scientific 
-products can actually be trusted and built upon, like a proof in mathematics
+> The basic practices of modularity, testing, version control, packaging, and interface design are not mere niceties. They determine whether data scientific  products can actually be trusted and built upon, like a proof in mathematics
 
 -- Hadley Wickham & Jenny Bryan
 
----
-
->  Users often remark on the ease of  manipulating data with dplyr and it is natural to wonder if perhaps the task itself is trivial.  We claim it is not. Many probability challenges become dramatically easier, once you strike  upon the “right” notation. In both cases, what feels like a matter of notation or syntax is  really a more about exploiting the “right” abstraction.
-
--- Hadley Wickham & Jenny Bryan
 
 ---
 
