@@ -5,11 +5,19 @@ A talk about research software engineering in academia
 
 # Abstract
 
-Research software engineering is a relatively new field, being defined as, "...people who combine professional software expertise with an understanding of research". I've been working as a research software engineer in academia for the past 6 months and I wanted to explain how this role fits into academia. Specifically, I'll discuss:
-
-- What a research software engineer does, and why we need them in academia
-- Some easy wins for improving reproducibility
-- Why we need to consider software as academic output
+We need software to do our research. Many researchers write software which
+implements new methodologies, statistical models, or graphics. Without
+ software, research would not have nearly the same impact or utility. 
+Despite the obvious impact of software, we are still working out how to adequately 
+acknowledge research software in academia, and how to provide rewarding career 
+paths for those who want to write research software as academic output. 
+The relatively new field of research software engineering can help address this. 
+A research  software engineer combines professional software expertise with an 
+understanding of research. I work as a research software 
+engineer in academia, and I wanted to explain how this role fits into academia. 
+Specifically, I'll discuss why we need to consider software as academic output,
+what a research software engineer does, how I work in a team of researchers, 
+and some of the practices I have put in place to maintain reproducibility. 
 
 # Slide available [here](https://bit.ly/FILL-ME-IN)
 
