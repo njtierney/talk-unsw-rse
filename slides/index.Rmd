@@ -78,28 +78,135 @@ nipa <- list(red = "#c03018",
 ```
 
 
-# We need software to do research
+---
+# Main arguments of the talk:
 
-- What software do people use in research?
-- Has anyone written software for their research and released it into the wild?
-- Could you do research without software?
-- We need software to do research!
-- High profile examples
-  - Black hole example from Python
-  - COVID graphics from Casey Briggs
-  - COVID modelling for Australian government
+- We need software to do research
+- Writing research software is a research contribution
+- Research software is critically underfunded and not acknowledged. 
+- We will continue to lose talented software developers if they are not acknowledged.
+- We must fund these people and acknowledge software
 
-# Writing research software is a research contribution
+???
 
-- Software is a legitimate form of research controbution
-- Functions are tools to help us manage complexity
-- Functions allow you to abstract complexity so you can individually reason with them
+I'll discuss why we need to consider software as academic output,
+what a research software engineer does, how I work in a team of researchers, 
+and some of the practices I have put in place to maintain reproducibility. 
+
+
+---
+class: inverse, middle, center
+
+# What software do people use in their research?
+
+
+---
+class: inverse, middle, center
+
+# Has anyone written software for their research and released it into the wild?
+
+---
+
+# Could you do your research without software?
+
+???
+
+(R, Matlab, C, FORTRAN)
+
+---
+
+# Conclusion: We need software to do our research
+
+---
+
+# Some high profile examples of software
+
+---
+
+# Imaging a black hole 
+
+---
+ 
+# COVID
+
+Casey Briggs data vis
+Grattan Institute vis
+Doherty Report
+
+---
+class: center, inverse, middle
+# Writing research software **is** a research contribution
+
+- Software is a legitimate form of research contribution
+
+---
+
+# Functions are tools to help us manage complexity
+
+Examples
+
+- yahtsee model - representing INLA model
+- R's model syntax, how this maps to model algebra
+- ggplot code
+- leafletJS
+
+---
+
+# Functions allow you to abstract complexity so you can individually reason with them
+
+- Maths example
+- square root - we don't care how it happens (Newton Raphson? Quake fast square root?), we just care that it does
+- ggplot?
+
+---
+# Functions allow you to abstract complexity so you can individually reason with them
+
+
 - Fundamentally this is what software helps us to do
+
+image of:
   - MAchine code --> Assembly --> FORTRAN --> C --> R --> ggplot
-  - We don't care how the square root happens, just that it does
-- Abstraction of complexity - similarities between software and maths
+
+
+---
+# Abstraction of complexity: similarities between software and maths
+
+Notation matters!
+
+$1000000$ vs $1,000,000$
+
+$10^6$
+
+.pull-left[
+$$
+1000000 * 10000 * 10000000 * 10000
+$$
+]
+
+.pull-right[
+$$
+10^6 * 10^4 * 10^7 * 10^4
+$$
+
+$$
+10^{6 + 4 + 7 + 4}
+$$
+
+]
+
+
   - 1,000,000 vs 1000000 vs 10^6^
   - Unmasking theta method paper
+  
+---
+# Abstraction of complexity: similarities between software and maths
+
+> Users often remark on the ease of  manipulating data with dplyr and it is natural to wonder if perhaps the task itself is trivial.  We claim it is not. Many probability challenges become dramatically easier, once you strike  upon the "right" notation. In both cases, what feels like a matter of notation or syntax is  really a more about exploiting the "right" abstraction.
+
+-- Hadley Wickham & Jenny Bryan "Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?"
+
+
+  
   - *Your favourite notation example?
   - notation example from Hadley and Jenny
 - This means that it is not just statistical models, but things like dplyr, ggplot
@@ -144,27 +251,6 @@ nipa <- list(red = "#c03018",
 - How would having an RSE inprove the impact of the work?
 - How do you hire more RSEs in your work?
 
-
----
-class: inverse, middle, center
-
-# What software do people use in their research?
-
-
----
-class: inverse, middle, center
-
-# Has anyone written software for their research and released it into the wild?
-
----
-
-# Could you do your research without software?
-
-(R, Matlab, C, FORTRAN)
-
----
-
-# Conclusion: We need software to do our research
 
 ---
 
