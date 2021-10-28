@@ -50,9 +50,10 @@ h1, h2, h3 {
 }
 .remark-code, .remark-inline-code {
   font-family: Fira Mono, 'Lucida Console', Monaco, monospace;
+  
 }
 .remark-code {
-  font-size: 0.9em;
+  font-size: 0.7em;
 }
 .remark-inline-code {
   font-size: 1em;
@@ -86,6 +87,21 @@ a, a > code {
   color: #ECECF1;
   
 }
+
+.inverse-orange {
+  background-color: #f0a800;
+  color: #ECECF1;
+}
+
+.inverse-orange h1, .inverse-orange h2, .inverse-orange h3 {
+  color: #ECECF1;
+}
+
+.inverse-orange strong {
+  color: #f0a800;
+  font-weight: 300;
+}
+
 .inverse h1, .inverse h2, .inverse h3 {
   color: #ECECF1;
 }

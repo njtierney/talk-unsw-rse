@@ -104,11 +104,3 @@ div.my-footer span {
   float: right;
   padding-left: 1%;
 }
-.pull-left {
-  float: left;
-  width: 47%;
-}
-.pull-right {
-  float: right;
-  width: 47%;
-}
