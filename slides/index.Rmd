@@ -13,6 +13,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+      slideNumberFormat: "%current%"  
 ---
 
 layout: true
@@ -35,20 +36,56 @@ knitr::opts_chunk$set(
   message = FALSE,
   warning = FALSE,
   cache = FALSE,
-  echo = FALSE,
+  echo = TRUE,
   autodep = TRUE
 )
 ```
 
-```{r library, include = FALSE}
+```{r library, include = FALSE, echo = FALSE}
 library(tidyverse)
 library(visdat)
 library(naniar)
 library(gganimate)
 library(knitr)
 library(ggrepel)
+library(leaflet)
 ```
 
+
+```{r read-tb, echo = FALSE, cache = TRUE}
+tb <- read_csv(here::here("slides",
+                          "data",
+                          "TB_notifications_2018-03-18.csv.gz")) %>% 
+  select(country, 
+         iso3, 
+         year, 
+         new_sp_m04:new_sp_fu) %>%
+  gather(key = stuff, 
+         value = count, 
+         new_sp_m04:new_sp_fu) %>%
+  separate(col = stuff, 
+           into = c("stuff1", 
+                    "stuff2", 
+                    "genderage")) %>%
+  select(-stuff1, 
+         -stuff2) %>%
+  mutate(gender = str_sub(genderage, 1, 1), 
+         age = str_sub(genderage, 2, length(genderage))) %>%
+  select(-genderage) %>%
+  filter(!(age %in% c("04", "014", "514", "u"))) %>%
+  filter(year > 1996, 
+         year < 2013)
+  
+tb_au <- tb %>% 
+  filter(country == "Australia")  %>%
+mutate(age =
+  case_when(age == "1524" ~ "15-24",
+            age == "2534" ~ "25-34",
+            age == "3544" ~ "35-44",
+            age == "4554" ~ "45-54",
+            age == "5564" ~ "55-64",
+            age == "65" ~ "65+"))
+```
 
 
 ```{r helpers, include=FALSE}
@@ -75,27 +112,24 @@ nipa <- list(red = "#c03018",
              pale_orange = "#FBE9BF",
              pale_red = "#EFCBC4")
 
+
+as_table <- function(...) knitr::kable(..., format='html', digits = 3)
 ```
 
 
----
-# Main arguments of the talk:
+???
+
+Main arguments of the talk:
 
 - We need software to do research
 - Writing research software is a research contribution
 - Research software is critically under-funded and not acknowledged. 
-- We will continue to lose talented software developers if they are not acknowledged.
-- We must fund these people and acknowledge software
-
+- We will continue to lose software developers if they are not acknowledged.
+- We must fund and acknowledge software
 - What does a research software engineer do?
 - The history of research software in academia
-- Do we need research software in academia?
-- Why we need to consider software as academic output
 - What I do in a day to day role
 - What Academia, and you, can do to help
-
-
-???
 
 I'll discuss why we need to consider software as academic output,
 what a research software engineer does, how I work in a team of researchers, 
@@ -125,86 +159,132 @@ class: inverse, middle, center
 ---
 class: inverse, middle, center
 
-# Conclusion: We need software to do our research
-
----
-
-# High profile examples of software
+# Do we need software to do our research?
 
 ---
 
 # Imaging a black hole 
 
 ---
- 
-# COVID
 
-Casey Briggs data vis
-Grattan Institute vis
-Doherty Report
+# COVID19
+
+- Doherty Report
 
 ---
-class: center, inverse, middle
-# Premise 1: Writing research software **is** a research contribution
+
+# COVID19
+
+  - Grattan Institute vis
+  
+---
+
+# COVID19
+
+  - Casey Briggs / ABC data vis
+
+---
+class: center, inverse-orange, middle
+# Premise 1: Writing research software is a research contribution
+
+---
+
+```{r create-lm-data, echo = FALSE}
+n <- 100
+x <- rnorm(n)
+z <- rep(1:3, length.out = n)
+y <- rnorm(n)
+```
+
+
+# Functions are tools to help us manage complexity
+
+For example: R's model syntax 
+
+Using existing base R functions:
+
+```{r lm-fit}
+fit <- lm(y ~ x + factor(z))
+coef(fit)
+fit |> resid() |> summary()
+```
+
 
 ---
 
 # Functions are tools to help us manage complexity
 
-R's model syntax (which is actually a syntactic algebra from a paper ... (heard via Emi Tanaka))
+Versus writing a model from scratch
 
-.pull-left[
+```{r old-school-fit}
+X <- cbind(1, x, z == 2, z == 3)
+fit <- solve(t(X) %*% X) %*% t(X) %*% y
+fit
+# ugh, residuals...
+```
 
-Model syntax
+???
 
-```r
-fit <- lm(y ~ x + z)
-residuals(fit)
+(which is actually a syntactic algebra from a paper ... (heard via Emi Tanaka))
+
+---
+
+# Functions are tools to help us manage complexity
+
+.left-code[
+```{r leaflet-example, eval = FALSE, echo = TRUE}
+leaflet() %>%
+  addTiles() %>%  
+  addMarkers(
+    lng = 174.768, 
+    lat = -36.852, 
+    popup = "R's birthplace"
+  )
 ```
 ]
 
-.pull-right[
-$$
-fit = 
-$$
+.right-plot[
+```{r leaflet-example-out, ref.label="leaflet-example", echo = FALSE}
+```
 ]
 
 ---
-
-# Functions are tools to help us manage complexity
-
-Other examples? 
-
-- yahtsee model - representing INLA model
-- ggplot code
-- leafletJS
-
----
-
 # Functions allow you to abstract complexity so you can individually reason with them
 
-- Maths example
-- square root - we don't care how it happens (Newton Raphson? Quake fast square root?), we just care that it **does happen**
-- ggplot
+- Assembly --> C --> R --> ggplot
 
 ---
-# Functions allow you to abstract complexity so you can individually reason with them
+# Abstraction of complexity: similarities between software and maths
 
-- Fundamentally this is what software helps us to do
+> Users often remark on the ease of  manipulating data with dplyr and it is natural to wonder if perhaps the task itself is trivial.  We claim it is not. Many probability challenges become dramatically easier, once you strike  upon the "right" notation. In both cases, what feels like a matter of notation or syntax is really more about **exploiting the "right" abstraction**.
 
-image of:
-  - MAchine code/Assembly --> FORTRAN --> C --> R --> ggplot
+-- Jenny Bryan & Hadley Wickham  "Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?"
+
+???
+
+This means that it is not just statistical models, but things like dplyr, ggplot
+
 
 ---
 # Abstraction of complexity: similarities between software and maths
 
 Notation matters!
 
+--
+
 .large[
 $1000000$ vs $1,000,000$ vs $10^6$
+]
 
+--
+
+.large[
 $1000000 * 10000 * 10000000 * 10000 = ?$
+]
 
+--
+
+.large[
 $10^6 * 10^4 * 10^7 * 10^4 = 10^{6 + 4 + 7 + 4}$
 ]
 
@@ -220,46 +300,10 @@ of algebraic manipulation. We show that the method can be expressed much more
 simply and that the forecasts obtained are equivalent to simple exponential smoothing
 with drift.
   
----
-# Abstraction of complexity: similarities between software and maths
-
-> Users often remark on the ease of  manipulating data with dplyr and it is natural to wonder if perhaps the task itself is trivial.  We claim it is not. Many probability challenges become dramatically easier, once you strike  upon the "right" notation. In both cases, what feels like a matter of notation or syntax is  really a more about exploiting the "right" abstraction.
-
--- Hadley Wickham & Jenny Bryan "Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?"
-
-???
-
-This means that it is not just statistical models, but things like dplyr, ggplot
 
 ---
-class: middle, inverse, center
-
-.huge[
-# Great ideas are often simple and obvious. That is what makes them Great.
-]
----
-# example: `ggplot2`
-
-.left-code[
-
-```{r}
-
-```
-
-]
-
-.right-plot[
-
-]
-
----
-class: inverse, middle, center
-
-# Your Turn: Do you have any favourite notation examples that spring to mind?
-
----
-class: inverse, middle, centre
-# Research software is critically underfunded and not acknowledged. 
+class: inverse-orange, middle, centre
+# Premise 2: Research software is critically underfunded and not acknowledged. 
 
 ???
 
@@ -276,13 +320,12 @@ class: inverse, middle, centre
 
 # Travis Oliphant
 
-*image of Travis*
-
 - PhD 2001 from Mayo Clinic in Biomedical Engineering
 - MS/BS in Elec. Comp. Engineering
 - Creator of **`SciPy`**, Author of **`NumPy`** ([The _most_ imported machine learning projects on GitHub](https://venturebeat.com/2019/01/24/github-numpy-and-scipy-are-the-most-popular-packages-for-machine-learning-projects/))
-- Professor at BYU (2001-2007)
-- founding char of Numfocus / PyData
+- Founding chair of Numfocus / PyData
+- Professor at Brigham Young University (2001-2007)
+- Applied for tenure
 
 --
 
@@ -295,10 +338,6 @@ class: inverse, middle, centre
 
 Also worth noting that he has had a successful career from here, his company, 
 Continuum Analytics received 24 million dollars in Seris A funding.
-
----
-
-
 
 ---
 # Jack Poulson
@@ -323,117 +362,138 @@ led to me making the difficult decision.
 It should be noted that Jack appears to be doing well, had a successful career at Google
 and has his own company, [HodgeStar](https://hodgestar.com/jack.html)
 
+---
+# "The Astropy problem" ([paper](https://arxiv.org/pdf/1610.03159.pdf))
+
+> "[Astropy is] a community effort to develop a single core package for Astronomy in Python and foster interoperability between Python astronomy packages." 
+
+--
+
+> For **five years** this project has been managed, written, and operated as a grassroots, self-organized, **almost entirely volunteer effort** while the software is used by the majority of the astronomical community. 
+
+--
+
+> Despite this, the project has always been and remains to this day **effectively unfunded** . Further, contributors receive **little or no formal recognition** for creating and supporting what is now critical software. 
 
 ---
-# Jack Poulson
+# Could grant bodies fund Astropy? 
 
-- Jack appears to be doing well
-- Had a successful career at Google as a research scientist
-- Has his own company, [HodgeStar](https://hodgestar.com/jack.html)
-- Authored the [`elemental`](https://github.com/elemental/Elemental) C++ library for distributed-memory dense and sparse-direct linear algebra, conic optimization, and lattice reduction
-- worth noting:
-
-
-> Deprecation notice
-
-> Elemental has not been maintained since 2016. But the project was forked by Lawrence Livermore National Lab. The author stopped being interested in volunteering to develop MPI codes and no one has stepped up after three years.
-
-> Software consists of teams of people. If you want people to continue developing a project after it ceases to be their personal interest, fund them for it.
-
-> The developer is now volunteering time towards high-performance math software for workstations at hodgestar.com.
-
-???
-
-- Otherwise we lose people
-  - where do they go? Industry?
-  - Maayyybe some people develop software at google and facebook
-  - Do we really want those really talented coders and maths/stats people to not train
-    the next generation? Is it bad that people develop at facebook / google and not at university?
-- Happy example of people being promoted for software
-  - FireDrake
-  - LEAN
-
----
-# The Astropy problem [paper](https://arxiv.org/pdf/1610.03159.pdf)
-
-> "a community effort to develop a single core package for Astronomy in Python and foster interoperability between Python astronomy packages." For five years this project has been managed, written, and operated as a grassroots, self-organized, almost entirely volunteer effort while the software is used by the majority of the astronomical community. Despite this, the project has always been and remains to this day effectively
-unfunded. Further, contributors receive little or no formal recognition for creating and supporting
-what is now critical software. 
-
----
-# Which grant bodies fund Astropy? 
+--
 
 >  ..."the NSF hasn’t funded software development for many years now, yet software continues to be written, so...?" 
 
-> "[The NSF] would consider funding software, but only once it has reached the point where it’s very mature and has a large number of users." These opinions reflect a gross misunderstanding of the amount of time, effort, and expertise it takes to develop software, let alone specialized, scientific software.
+--
+
+> "[The NSF] would consider funding software, but only once it has reached the point where it’s very mature and has a large number of users." 
+
+--
+
+> These opinions reflect a gross misunderstanding of the amount of time, effort, and expertise it takes to develop software, let alone specialized, scientific software.
 
 ---
 # OK, but how important is astropy?
 
 --
 
-> ... All NASA mission pipelines, from the venerable Hubble Space Telescope to the upcoming WFIRST, use Astropy, and increasingly so every day
+> ... All NASA mission pipelines... [such as the]... venerable Hubble Space Telescope to the upcoming Nancy Grace Roman Space Telescope, use Astropy.
+
+--
+
+*gif - oh, god*
 
 ---
 
-# Softare just, "happens"
+# "The astropy problem": 'Software just, "happens"'
 
-> For much of the community, software is something that just "happens" and is expected to be free. However, there is a cost and it is clear who is paying it. The early career astronomers who contribute the lion’s share of the effort do so at the expense of their research and publication output.
+> For much of the community, software is something that just "happens" and is expected to be free. 
 
-> " We measure success in science by how many people use the results of or are impacted by our work. We are encouraged to publish our results so that others build upon them, which are measured by the number of citations. While there is an Astropy paper, there is no doubt that the library is used by far more people than actually cite it – probably close to an order of magnitude. The number of astronomers whose work was built with the assistance of Astropy rivals or exceeds the most well-cited papers. This alone should have led to the equivalent of tenured positions for the principal developers of Astropy – certainly tenured positions have been awarded to those less impactful. Such positions in software development don’t exist in our community."
+--
 
+> However, there is a cost and it is clear who is paying it. 
+
+--
+
+> The early career astronomers who contribute the lion’s share of the effort do so at the expense of their research and publication output.
 
 ---
-class: inverse, middle, center
 
-# But there are success stories
+# Francois Chollet
 
-- Hadley Wickham (ICOTS)
-- Dianne Cook
-- Rob Hyndman
-- FireDrake PDE solver?
+Creator of Keras
+
+---
+# Who is funding scientific software?
+
+- TensorFlow (Google)
+- Torch (Facebook)
+- Keras (Google)
+
 
 ???
 
-I especially want to thank Rob and Di, because they genuinely push software
-as academic output, and I felt nothing but support for my focus on writing software
+
+---
+# What happens if you don't fund software: Heartbleed OpenSSL bug
+
+
+---
+# What happens if you don't fund software: Elemental
+
+[`elemental`](https://github.com/elemental/Elemental) C++ library for distributed-memory dense and sparse-direct linear algebra, conic optimization, and lattice reduction
+
+---
+# What happens if you don't fund software: LaplacesDemon
+
+---
+# Research can be "done".
+
+--
+
+.pull-left[
+
+Research:
+
+- 3 year research plan
+- Survey population
+- Get + share data
+- Develop model, write about insights
+- Submit paper
+- reject/revise/publish
+- paper published
+- That component is done
+
+]
+
+--
+
+.pull-right[
+Software:
+
+- 3 years of funding
+- Create software to perform modelling
+- Develop tests, documentation, examples
+- Extend to other niche use cases
+- Add features requested by community
+- Ongoing maintenance
+
+]
 
 ---
 # What happens if you don't fund software?
 
-- Heartbleed OpenSSL bug
-- Elemental C++ library
-- LaplacesDemon
-- We re-build the wheel
-
----
-class: inverse, middle, center
-# Is there a career for software developers in academia?
+We rebuild the wheel
 
 --
 
-# Yes. A research software engineer!
+But can we 
 
 ---
-# Define: Research Software Engineer
+class: inverse-orange, middle, center
+# Can we at least give software developers in academia a name?
 
-> A Research Software Engineer (RSE) combines professional software engineering expertise with an intimate understanding of research.
+-- 
 
-Coined in the UK in March 2021
-
-> The Society of Research Software Engineering was founded on the belief that a world which relies on software must recognise the people who develop it.
-
-(from https://society-rse.org/about/)
-
----
-# What sorts of things does an RSE do?
-
-- Develop helpful tools
-- Help researchers with finding + learning good tools
-- Support researchers with (computational) reproducibility
-- Support in writing software
-
-(from Heidi Seibold's talk: https://docs.google.com/presentation/d/1XQc2U2X8hiK43UzUi9IwvsvULxhVy0WzWSa_Kt4ZJv4/view#slide=id.gdbfb32d486_0_448)
+# A research software engineer!
 
 ---
 # A not-so-brief history of Research Software Engineers (Abridged)
@@ -442,32 +502,54 @@ Coined in the UK in March 2021
 
 > Many academics were aware of the importance of software to research; they could see that the people who created this software went largely unrecognised, and they were beginning to worry about the consequences of this oversight. What happens when something is so vital to research, yet overlooked and severely under-resourced? 
 
+
 ---
-# A brief story of how I became an RSE
+# Define: Research Software Engineer
 
-###>
+> A Research Software Engineer (RSE) combines professional software engineering expertise with an intimate understanding of research.
 
-2008-2012 
-
-- Undergraduate in Psychology
-  - Experiment Design
-  - Vision Science
-  - Desire to use statistics for public health
+-- (from https://society-rse.org/about/)
 
 --
 
-2013 - 2017
+> The Society of Research Software Engineering was founded on the belief that a world which relies on software must recognise the people who develop it.
 
-- PhD Statistics
-  - Exploratory data analysis
-  - Bayesian statistics
 
-<!-- - A lot of research in new statistical methods - imputation, inference, prediction -->
-<!-- - Not much research on how we explore our data, and the methods that we use to do this. -->
+---
+# Research software engineer != Software Engineer
 
-2018 - 2020
+Researcher: create statistical model of malaria for given region
 
-- Research Fellow / Lecturer at Monash
+--
+
+Software engineer: Take existing code base, and productionise in containers to run on the web
+
+--
+
+Research software engineer: Identify abstractions, build code that lets researchers write code that lets them focus on their models 
+
+--
+
+Example of this later
+
+
+---
+# What sorts of things does an RSE do?
+
+- Develop tools that abstract the right components 
+- Help researchers to find and learn good tools
+- Support researchers with (computational) reproducibility
+- Support in creating software to solve research problems.
+
+(from Heidi Seibold's [UseR2021 Keynote talk](https://docs.google.com/presentation/d/1XQc2U2X8hiK43UzUi9IwvsvULxhVy0WzWSa_Kt4ZJv4/view#slide=id.gdbfb32d486_0_448))
+
+
+---
+# My journey into the RSE world
+
+- 2008-2012:  Undergraduate + honours in Psychology
+- 2013 - 2017: PhD Statistics (EDA + Bayes)
+- 2018 - 2020: Research Fellow / Lecturer at Monash
   - Design and improve tools for (exploratory) data analysis
   - Teach introduction to data analysis (ETC1010)
 
@@ -485,9 +567,7 @@ John Tukey, Frederick Mosteller, Bill Cleveland, Dianne Cook, Heike Hoffman, Rob
 
 # EDA: Why it's worth it
 
---
-
-```{r dino-saurus}
+```{r dino-saurus, echo = FALSE}
 include_graphics("gifs/dino-saurus.gif")
 ```
 
@@ -497,7 +577,7 @@ include_graphics("gifs/dino-saurus.gif")
 
 ## `visdat::vis_dat(airquality)`
 
-```{r show-visdat, fig.height = 3.5, fig.width = 8, out.width = "150%"}
+```{r show-visdat, fig.height = 3.5, fig.width = 8, out.width = "150%", echo = FALSE}
 vis_dat(airquality)
 ```
 
@@ -505,7 +585,7 @@ vis_dat(airquality)
 
 ## `naniar::gg_miss_var(airquality)`
 
-```{r gg-miss-var, fig.height = 3.5, fig.width = 8, out.width = "150%"}
+```{r gg-miss-var, fig.height = 3.5, fig.width = 8, out.width = "150%", echo = FALSE}
 gg_miss_var(airquality)
 ```
 
@@ -520,13 +600,6 @@ knitr::include_graphics("imgs/brolgar-spaghetti.png")
 ---
 class: inverse, middle, center
 # What do I do as an RSE?
-
----
-# What do I do as an RSE?
-
-- Working on `{greta}` R package for statistical analysis
-- Developing statistical software for use in malaria and COVID19 modelling
-- Developing pipelines to run infectious disease modelling for COVID19 with Doherty Group
 
 ---
 
@@ -544,9 +617,8 @@ class: inverse, middle, center
 
 # Malaria modelling
 
-- {`yahtsee`}
+- {`yahtsee`} (Yet Another Hierarchical Time Series Extension + Expansion)
 
-.pull-left[
 ```r
 m <- fit_hts(
   formula = pr ~ avg_lower_age + hts(who_region, who_subregion, country),
@@ -554,9 +626,25 @@ m <- fit_hts(
   family = "gaussian"
 )
 ```
-]
 
-.pull-right[
+--
+
+Instead of...
+
+---
+
+# Malaria modelling
+
+
+
+---
+
+# Malaria modelling
+
+---
+
+# Malaria modelling
+
 ```r
 inlabru::bru(
 formula = pr ~ avg_lower_age + Intercept + 
@@ -580,7 +668,6 @@ formula = pr ~ avg_lower_age + Intercept +
       )
       )
 ```
-]
 
 
 ---
@@ -699,9 +786,6 @@ knitr::include_graphics("imgs/joss-submission.png")
 - [Guided walk through](https://github.com/openjournals/joss-reviews/issues)
 
 ---
-# JOSS
-
----
 # rOpenSci Software Review
 
 - More in depth software review backed by their [developer guide](https://devguide.ropensci.org/)
@@ -720,74 +804,11 @@ knitr::include_graphics("imgs/joss-submission.png")
 
 - John Chambers Award
 - Di Cook Award for statistical Software (Vic + Tasmania)
-
----
-
-# Getting credit
-
 - [ARDS: A national agenda for research software](https://zenodo.org/record/4940274)
 
----
-
-# Having RSEs in your team
-
-- Proactive vs Reactive research software
-  - Proactive: designs code that can be maintaed easily, for 10 years, is documented well, is tested, is maintainable
-  - Reactive: taking existing code and cleaning it up so it can be used for other use cases
-- More haste less speed: do it well so you can do it quickly
-- Examples of the types of RSE projects
-  - What sort of skillset they need, and how it contributes to reserach impacrt
-- How would having an RSE inprove the impact of the work?
-
----
-# What can we do?
-
-- Hire RSEs!
-  - Here's how you can make the usecase...
-
----
-# Training people with software
-
-- pi-shaped researcher image
-- the carpentaries as training device
-
----
-
-
-# SO we must fund these people and acknowledge software
-
-- And as I've been writing this talk, I've been feeling a lot of feelings.
-I see far too often, people point
-- ... if there is time, some quick principled wins for reproducibility.
 
 --- 
 # Changing the values within academia
-
----
-# What does academia value?
-
-> The incentive structures of academic statistics still signal that mathematical statistics and the creation of new models and inferential procedures are more valuable than work related to data manipulation, visualisation, and programming. This is reflected in the content of for-credit courses, qualifying exams, and standards for funding and promotion.... It can be very difficult to  present modern data scientific work as impactful scholarly activity, when the system still  defines that primarily as theory and methodology papers.
-
--- Hadley Wickham & Jenny Bryan
-
----
-
-> The basic practices of modularity, testing, version control, packaging, and interface design are not mere niceties. They determine whether data scientific  products can actually be trusted and built upon, like a proof in mathematics
-
--- Hadley Wickham & Jenny Bryan
-
-
----
-
->  It doesn’t matter how good a theoretical solution is, unless there are 
-practical tools that implement it. We must also recognise that humans are an essential part 
-of the data science process and study how they can interact with the computer most 
-effectively. Finding useful abstractions and exposing them through programming languages 
-is an important part of this process
-
--- Hadley Wickham & Jenny Bryan
-
-Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?
 
 ---
 
@@ -796,23 +817,6 @@ Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?
 - Writing software is a legitimate form of research contribution
 - We need to think about how we fund and support those who write software
 - RSEs can help make researchers more productive
-
----
-
-# Future Directions
-
-.large[
-- More features
-- More features
-- More features
-]
-
----
-
-# Test
-
-.small[small]
-.
 
 ---
 
@@ -828,8 +832,6 @@ Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?
 .large.pull-right[
 - Di Cook
 - Rob Hyndman
-- 
-- So many great people
 ]
 
 ---
@@ -842,9 +844,6 @@ Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?
 ]
 
 - [The Origins of SageMath; I am leaving academia to build a company](https://www.youtube.com/watch?v=6eIoYMB_0Xc&t=1883s)
-- []()
-- []()
-- []()
 - []()
 
 [My twitter thread containing resources to read](https://twitter.com/nj_tierney/status/1440562571447193608)
@@ -924,3 +923,83 @@ to do so
 
 Understanding how complex things can be represented in simpler ways is a useful contribution.
 
+
+
+2008-2012 
+
+- Undergraduate in Psychology
+  - Experiment Design
+  - Vision Science
+  - Desire to use statistics for public health
+
+--
+
+2013 - 2017
+
+- PhD Statistics
+  - Exploratory data analysis
+  - Bayesian statistics
+
+<!-- - A lot of research in new statistical methods - imputation, inference, prediction -->
+<!-- - Not much research on how we explore our data, and the methods that we use to do this. -->
+
+2018 - 2020
+
+- Research Fellow / Lecturer at Monash
+  - Design and improve tools for (exploratory) data analysis
+  - Teach introduction to data analysis (ETC1010)
+
+---
+    
+# EDA: Exploratory Data Analysis
+
+.large[
+> ...EDA is an approach to analyzing data sets to summarize their main characteristics, often with visual methods. (Wikipedia)
+
+John Tukey, Frederick Mosteller, Bill Cleveland, Dianne Cook, Heike Hoffman, Rob Hyndman, Hadley Wickham
+]
+
+
+
+---
+# What does academia value?
+
+> The incentive structures of academic statistics still signal that mathematical statistics and the creation of new models and inferential procedures are more valuable than work related to data manipulation, visualisation, and programming. This is reflected in the content of for-credit courses, qualifying exams, and standards for funding and promotion.... It can be very difficult to  present modern data scientific work as impactful scholarly activity, when the system still  defines that primarily as theory and methodology papers.
+
+-- Jenny Bryan & Hadley Wickham
+
+---
+
+> The basic practices of modularity, testing, version control, packaging, and interface design are not mere niceties. They determine whether data scientific  products can actually be trusted and built upon, like a proof in mathematics
+
+-- Jenny Bryan & Hadley Wickham
+
+
+---
+
+>  It doesn’t matter how good a theoretical solution is, unless there are 
+practical tools that implement it. We must also recognise that humans are an essential part 
+of the data science process and study how they can interact with the computer most 
+effectively. Finding useful abstractions and exposing them through programming languages 
+is an important part of this process
+
+-- Jenny Bryan & Hadley Wickham
+
+Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?
+---
+
+# Having RSEs in your team
+
+- Proactive vs Reactive research software
+  - Proactive: designs code that can be maintaed easily, for 10 years, is documented well, is tested, is maintainable
+  - Reactive: taking existing code and cleaning it up so it can be used for other use cases
+- More haste less speed: do it well so you can do it quickly
+- Examples of the types of RSE projects
+  - What sort of skillset they need, and how it contributes to reserach impacrt
+- How would having an RSE inprove the impact of the work?
+
+---
+# What can we do?
+
+- Hire RSEs!
+  - Here's how you can make the usecase...
