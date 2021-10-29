@@ -2,7 +2,7 @@
 title: 'Recognising research software in academia'
 subtitle: ""  
 author: "<span style = 'font-size: 90%;'>Nicholas Tierney, Telethon Kids Institute</span>"
-date: "<span style = 'font-size: 90%;'>UNSW <br><br> Friday 29th October, 2021 </span> <br><br> `r #icons::fa('link')` [LINK]() <br><br>`r #icons::fa('twitter')` [nj_tierney](https://twitter.com/nj_tierney)"
+date: "<span style = 'font-size: 90%;'>UNSW Seminar<br><br> Friday 29th October, 2021 </span> <br><br> `r #icons::fa('link')` [LINK]() <br><br>`r #icons::fa('twitter')` [nj_tierney](https://twitter.com/nj_tierney)"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -49,6 +49,7 @@ library(gganimate)
 library(knitr)
 library(ggrepel)
 library(leaflet)
+library(brolgar)
 ```
 
 
@@ -161,9 +162,42 @@ class: inverse, middle, center
 
 # Do we need software to do our research?
 
+--
+
+.huge[
+Yes
+]
+
+--
+
+.small[
+(if we want it to work)
+]
+
 ---
 
 # Imaging a black hole 
+
+.pull-left[
+```{r show-black-hole-code, echo = FALSE}
+knitr::include_graphics("imgs/katie-bouman-black-hole.jpeg")
+```
+
+> Congratulations to Dr. Katie Bouman to whom we owe the first photograph of a black hole ever.
+([from @TamyEmmaPepin](https://twitter.com/TamyEmmaPepin/status/1116014974508371971)
+]
+
+.pull-right[
+
+```{r show-black-hole, echo = FALSE}
+knitr::include_graphics("imgs/black-hole.jpeg")
+```
+
+> "...There are about 68,000 lines in the current software"
+([ABC article](https://www.abc.net.au/news/2019-04-15/black-hole-photo-katie-bouman-trolls/11006820)])
+]
+
+
 
 ---
 
@@ -171,17 +205,25 @@ class: inverse, middle, center
 
 - Doherty Report
 
+(from: https://www.pmc.gov.au/sites/default/files/files/findings-and-implications-of-doherty-institute-covid-19-modelling-and-sensitivity-analysis-presentation.pdf)
+
 ---
 
-# COVID19
+# COVID19: Grattan Institute
 
-  - Grattan Institute vis
+```{r grattan-vis, echo = FALSE, out.width = "90%"}
+knitr::include_graphics("imgs/matt-cowgill-grattan.png")
+```
+
+(from Grattan institute report: ["Australian governments can choose to slow the spread of coronavirus, but they would need to act immediately"](https://grattan.edu.au/news/australian-governments-can-choose-to-slow-the-spread-of-coronavirus-but-they-must-act-immediately/))
   
 ---
 
-# COVID19
+# COVID19: Journalist [@CaseyBriggs](https://twitter.com/CaseyBriggs/status/1452567917149646850/photo/1)
 
-  - Casey Briggs / ABC data vis
+```{r show-covid-casey, echo = FALSE, out.height = "90%"}
+include_graphics("imgs/casey-briggs-covid-plots.jpeg")
+```
 
 ---
 class: center, inverse-orange, middle
@@ -197,29 +239,27 @@ y <- rnorm(n)
 ```
 
 
-# Functions are tools to help us manage complexity
+# Functions help us manage complexity
 
 For example: R's model syntax 
-
-Using existing base R functions:
 
 ```{r lm-fit}
 fit <- lm(y ~ x + factor(z))
 coef(fit)
-fit |> resid() |> summary()
+fit |> residuals() |> summary()
 ```
 
 
 ---
 
-# Functions are tools to help us manage complexity
+# Functions help us manage complexity
 
 Versus writing a model from scratch
 
-```{r old-school-fit}
+```{r old-school-fit, error = TRUE}
 X <- cbind(1, x, z == 2, z == 3)
 fit <- solve(t(X) %*% X) %*% t(X) %*% y
-fit
+residuals(fit)
 # ugh, residuals...
 ```
 
@@ -228,8 +268,7 @@ fit
 (which is actually a syntactic algebra from a paper ... (heard via Emi Tanaka))
 
 ---
-
-# Functions are tools to help us manage complexity
+# Functions help us manage complexity
 
 .left-code[
 ```{r leaflet-example, eval = FALSE, echo = TRUE}
@@ -248,17 +287,20 @@ leaflet() %>%
 ```
 ]
 
----
-# Functions allow you to abstract complexity so you can individually reason with them
+???
+
+- Functions allow you to abstract complexity so you can individually reason with them
 
 - Assembly --> C --> R --> ggplot
 
 ---
 # Abstraction of complexity: similarities between software and maths
 
-> Users often remark on the ease of  manipulating data with dplyr and it is natural to wonder if perhaps the task itself is trivial.  We claim it is not. Many probability challenges become dramatically easier, once you strike  upon the "right" notation. In both cases, what feels like a matter of notation or syntax is really more about **exploiting the "right" abstraction**.
+--
 
--- Jenny Bryan & Hadley Wickham  "Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?"
+> Users often remark on the ease of  manipulating data with dplyr and it is natural to wonder if perhaps the task itself is trivial.  We claim it is not. Many probability challenges become dramatically easier, once you **strike  upon the "right" notation**. In both cases, what feels like a matter of notation or syntax is really more about **exploiting the "right" abstraction**.
+
+-- Jenny Bryan & Hadley Wickham  [Data Science: A Three Ring Circus or a Big Tent?](https://arxiv.org/pdf/1712.07349.pdf)
 
 ???
 
@@ -291,7 +333,7 @@ $10^6 * 10^4 * 10^7 * 10^4 = 10^{6 + 4 + 7 + 4}$
 ---
 # Abstraction of complexity: similarities between software and maths
 
-"Unmasking the theta method" -- Rob Hyndmand & Baki Billah
+"Unmasking the theta method" (Rob Hyndmand & Baki Billah)
 
 > The "Theta method" of forecasting performed particularly well in the M3-
 competition and is therefore of interest to forecast practitioners. The original description
@@ -317,30 +359,28 @@ class: inverse, middle, centre
 ]
 
 ---
-
-# Travis Oliphant
+## Travis Oliphant
 
 - PhD 2001 from Mayo Clinic in Biomedical Engineering
 - MS/BS in Elec. Comp. Engineering
 - Creator of **`SciPy`**, Author of **`NumPy`** ([The _most_ imported machine learning projects on GitHub](https://venturebeat.com/2019/01/24/github-numpy-and-scipy-are-the-most-popular-packages-for-machine-learning-projects/))
 - Founding chair of Numfocus / PyData
 - Professor at Brigham Young University (2001-2007)
-- Applied for tenure
 
 --
 
-- **Application for Tenure was denied. Software wasn't counted**.
+**Application for Tenure was denied. Software wasn't counted**.
 
-
+.small[
 (Abbreviated from [William Stein's talk](https://wstein.org/talks/2016-06-sage-bp/bp.pdf))
-
+]
 ???
 
 Also worth noting that he has had a successful career from here, his company, 
 Continuum Analytics received 24 million dollars in Seris A funding.
 
 ---
-# Jack Poulson
+## Jack Poulson
 
 > Hi William,
 
@@ -355,8 +395,9 @@ led to me making the difficult decision.
 
 > – [Jack Poulson, Stanford](https://hodgestar.com/jack.html)
 
+.small[
 (Abbreviated from [William Stein's talk](https://wstein.org/talks/2016-06-sage-bp/bp.pdf))
-
+]
 ???
 
 It should be noted that Jack appears to be doing well, had a successful career at Google
@@ -380,11 +421,11 @@ and has his own company, [HodgeStar](https://hodgestar.com/jack.html)
 
 --
 
->  ..."the NSF hasn’t funded software development for many years now, yet software continues to be written, so...?" 
+>  ..."the NSF hasn't funded software development for many years now, yet software continues to be written, so...?" 
 
 --
 
-> "[The NSF] would consider funding software, but only once it has reached the point where it’s very mature and has a large number of users." 
+> "[The NSF] would consider funding software, but only once it has reached the point where it's very mature and has a large number of users." 
 
 --
 
@@ -395,15 +436,18 @@ and has his own company, [HodgeStar](https://hodgestar.com/jack.html)
 
 --
 
-> ... All NASA mission pipelines... [such as the]... venerable Hubble Space Telescope to the upcoming Nancy Grace Roman Space Telescope, use Astropy.
+> ... All NASA mission pipelines... [such as the]... venerable Hubble Space Telescope to the upcoming [Nancy Grace Roman Space Telescope], use Astropy.
 
 --
 
-*gif - oh, god*
+```{r show-michael, echo = FALSE}
+knitr::include_graphics("gifs/office-michael.gif")
+```
+
 
 ---
 
-# "The astropy problem": 'Software just, "happens"'
+# '...Software just, "happens" ???'
 
 > For much of the community, software is something that just "happens" and is expected to be free. 
 
@@ -413,21 +457,26 @@ and has his own company, [HodgeStar](https://hodgestar.com/jack.html)
 
 --
 
-> The early career astronomers who contribute the lion’s share of the effort do so at the expense of their research and publication output.
-
----
-
-# Francois Chollet
-
-Creator of Keras
+> The early career astronomers who contribute the lion's share of the effort do so at the expense of their research and publication output.
 
 ---
 # Who is funding scientific software?
 
-- TensorFlow (Google)
-- Torch (Facebook)
-- Keras (Google)
+.pull-left.left[
+```{r show-pytorch, echo = FALSE}
+knitr::include_graphics("imgs/tensorflow.png")
+knitr::include_graphics("imgs/keras.png")
+knitr::include_graphics("imgs/pytorch.png")
+```
+]
 
+.pull-right[
+```{r show-companies, echo = FALSE, out.with = "50%"}
+knitr::include_graphics("imgs/google.png")
+knitr::include_graphics("imgs/facebook.png")
+```
+
+]
 
 ???
 
@@ -435,17 +484,70 @@ Creator of Keras
 ---
 # What happens if you don't fund software: Heartbleed OpenSSL bug
 
+```{r show-heartbleed, echo = FALSE}
+knitr::include_graphics("imgs/heartbleed.png")
+```
+
+--
+
+> By 2014, two-thirds of all Web servers were using OpenSSL, enabling
+websites to securely pass credit card and other sensitive information
+over the Internet
+
+--
+
+> ...the project continued to be informally managed by a
+small handful of volunteers. 
+
+--
+
+> The OpenSSL team continued to work in relative obscurity until April
+2014, when a Google engineer named Neel Mehta stumbled upon a
+major flaw in OpenSSL's software. Two days later, another engineer
+at the Finnish company Codenomicon discovered the same problem.
+Both of them immediately contacted the OpenSSL team.
+
+--
+
+> That bug, nicknamed Heartbleed, had been included in a 2011
+update. It had gone unnoticed for years. Heartbleed could allow any
+sophisticated hacker to capture secure information being passed to
+vulnerable web servers, including passwords, credit card information,
+and other sensitive data.
+
+--
+
+> The mystery is not that a few overworked volunteers missed this bug; the mystery is why it hasn't happened more often."
+
 
 ---
-# What happens if you don't fund software: Elemental
+# What happens if you don't fund software: Heartbleed OpenSSL bug
+
+```{r show-heartbleed, echo = FALSE}
+knitr::include_graphics("imgs/heartbleed.png")
+```
+
+--
+
+> Many of these projects are built and maintained by volunteers and offered to the public for free. Anyone, from Facebook to an amateur programmer, can use that code to build their own apps. And they do. If it sounds unbelievable that, as Marquess puts it, a "ragtag group of amateurs could outcompete huge corporations with their money and resources," consider how this work reflects the rise of peer-to-peer
+collaboration around the world.
+
+(from ["Roads and Bridges: The Unseen Labor Behind Our Digital Infrastructure](https://www.fordfoundation.org/media/2976/roads-and-bridges-the-unseen-labor-behind-our-digital-infrastructure.pdf))
+
+---
+# What happens if you don't fund software: [`elemental`](https://github.com/elemental/Elemental)
+
+
+```{r show-elemental, echo = FALSE}
+knitr::include_graphics("imgs/elemental.png")
+```
+
+???
 
 [`elemental`](https://github.com/elemental/Elemental) C++ library for distributed-memory dense and sparse-direct linear algebra, conic optimization, and lattice reduction
 
 ---
-# What happens if you don't fund software: LaplacesDemon
-
----
-# Research can be "done".
+# Research: "done" vs Software: "Maintained"
 
 --
 
@@ -474,34 +576,25 @@ Software:
 - Develop tests, documentation, examples
 - Extend to other niche use cases
 - Add features requested by community
-- Ongoing maintenance
+- **Ongoing maintenance**
 
 ]
 
 ---
-# What happens if you don't fund software?
-
-We rebuild the wheel
-
---
-
-But can we 
-
----
 class: inverse-orange, middle, center
+
 # Can we at least give software developers in academia a name?
 
--- 
+--
 
 # A research software engineer!
 
 ---
 # A not-so-brief history of Research Software Engineers (Abridged)
 
-(From the [eponymous paper](https://www.software.ac.uk/blog/2016-08-17-not-so-brief-history-research-software-engineers-0))
-
 > Many academics were aware of the importance of software to research; they could see that the people who created this software went largely unrecognised, and they were beginning to worry about the consequences of this oversight. What happens when something is so vital to research, yet overlooked and severely under-resourced? 
 
+(From the [eponymous paper](https://www.software.ac.uk/blog/2016-08-17-not-so-brief-history-research-software-engineers-0))
 
 ---
 # Define: Research Software Engineer
@@ -530,18 +623,93 @@ Research software engineer: Identify abstractions, build code that lets research
 
 --
 
-Example of this later
+For example...
 
+
+---
+
+# Malaria modelling
+
+[`yahtsee` (Yet Another Hierarchical Time Series Extension + Expansion)](https://github.com/njtierney/yahtsee)
+
+.pull-left[
+```r
+m <- fit_hts(
+  formula = pr ~ avg_lower_age + 
+  hts(who_region, 
+      who_subregion,
+      country),
+  .data = malaria_africa_ts,
+  family = "gaussian"
+)
+```
+]
+
+.pull-right[
+```{r show-data, echo = FALSE}
+yahtsee::malaria_africa_ts
+```
+
+]
+
+
+---
+
+# Malaria modelling
+
+```{r show-code, echo = TRUE, eval = FALSE}
+cleaned_data <- data %>%
+    as_tibble() %>%
+    group_by(who_region) %>%
+    transmute(.who_region_id = cur_group_id()) %>%
+    ungroup(who_region) %>%
+    select(-who_region) %>% 
+    group_by(who_subregion) %>%
+    transmute(.who_subregion_id = cur_group_id()) %>%
+    ungroup(who_subregion) %>%
+    select(-who_subregion) %>% 
+    group_by(country) %>%
+    transmute(.country_id = cur_group_id()) %>%
+    ungroup(country) %>%
+    select(-country) 
+```
+---
+
+# Malaria modelling
+
+```r
+model <- inlabru::bru(
+formula = pr ~ avg_lower_age + Intercept + 
+  who_region(month_num, 
+             model = "ar1", 
+             group = .who_region_id,
+             constr = FALSE) + 
+  who_subregion(month_num, 
+                model = "ar1", 
+                group = .who_subregion_id, 
+                constr = FALSE) + 
+  country(month_num, 
+          model = "ar1", 
+          group = .country_id, 
+          constr = FALSE),
+    family = "gaussian",
+    data = malaria_africa_ts,
+    options = list(control.compute = list(config = TRUE),
+                   control.predictor = list(compute = TRUE, link = 1))
+    )
+```
 
 ---
 # What sorts of things does an RSE do?
 
-- Develop tools that abstract the right components 
-- Help researchers to find and learn good tools
+.large[
+- Create software to **solve research problems**
+- Develop tools that **abstract the right components** to facilitate research
+- Help researchers to **find and learn** good tools
 - Support researchers with (computational) reproducibility
-- Support in creating software to solve research problems.
+]
 
-(from Heidi Seibold's [UseR2021 Keynote talk](https://docs.google.com/presentation/d/1XQc2U2X8hiK43UzUi9IwvsvULxhVy0WzWSa_Kt4ZJv4/view#slide=id.gdbfb32d486_0_448))
+(adapted from Heidi Seibold's [UseR2021 Keynote talk](https://docs.google.com/presentation/d/1XQc2U2X8hiK43UzUi9IwvsvULxhVy0WzWSa_Kt4ZJv4/view#slide=id.gdbfb32d486_0_448))
 
 
 ---
@@ -591,10 +759,43 @@ gg_miss_var(airquality)
 
 ---
 
-## `brolgar`
+## `brolgar` - take spaghetti
 
-```{r echo = FALSE}
-knitr::include_graphics("imgs/brolgar-spaghetti.png")
+```{r gg-brolgar, echo = FALSE}
+ggplot(heights,
+       aes(x = year,
+           y = height_cm,
+           group = country)) + 
+  geom_line()
+```
+
+---
+
+## `brolgar` - sample spaghetti
+
+
+```{r gg-brolgar-sample, echo = FALSE}
+ggplot(heights,
+       aes(x = year,
+           y = height_cm,
+           group = country)) + 
+  geom_line() + 
+  facet_sample()
+```
+
+
+---
+
+## `brolgar` - spread spaghetti
+
+
+```{r gg-brolgar-spread, fig.height = 3.5, fig.width = 8, out.width = "150%", echo = FALSE}
+ggplot(heights,
+       aes(x = year,
+           y = height_cm,
+           group = country)) + 
+  geom_line() + 
+  facet_strata(along = -year)
 ```
 
 ---
@@ -603,71 +804,99 @@ class: inverse, middle, center
 
 ---
 
-# {greta}
+# {greta}: scalable statistical inference
 
-.pull-left[
-
-]
-
-.pull-right[
-
-]
-
----
-
-# Malaria modelling
-
-- {`yahtsee`} (Yet Another Hierarchical Time Series Extension + Expansion)
+--
 
 ```r
-m <- fit_hts(
-  formula = pr ~ avg_lower_age + hts(who_region, who_subregion, country),
-  .data = malaria_africa_ts,
-  family = "gaussian"
-)
+y <- c(21, 20, 15)
+n <- c(48, 34, 21)
+Z <- c(10, 30, 50)
+alpha <- 4.48
+beta <- 0.76
+sigma2 <- 81.14
+sigma <- sqrt(sigma2)
+tau <- 1 / sigma2
+J <- 3
 ```
 
 --
 
-Instead of...
+.pull-left[
 
----
-
-# Malaria modelling
-
-
-
----
-
-# Malaria modelling
-
----
-
-# Malaria modelling
-
-```r
-inlabru::bru(
-formula = pr ~ avg_lower_age + Intercept + 
-  who_region(month_num, 
-             model = "ar1", 
-             group = .who_region_id,
-             constr = FALSE) + 
-  who_subregion(month_num, 
-                model = "ar1", 
-                group = .who_subregion_id, 
-                constr = FALSE) + 
-  country(month_num, 
-          model = "ar1", 
-          group = .country_id, 
-          constr = FALSE),
-    family = "gaussian",
-    data = malaria_africa_ts,
-    options = list(
-      control.compute = list(config = TRUE),
-      control.predictor = list(compute = TRUE, link = 1)
-      )
-      )
+```{r greta-code, eval = FALSE}
+theta <- normal(0, 32, dim = 2)
+mu <- alpha + beta * Z
+X <- normal(mu, sigma)
+p <- ilogit(theta[1] + theta[2] * X)
+distribution(y) <- binomial(n, p)
 ```
+
+
+]
+
+--
+
+.pull-right[
+
+```{r bugs-code, eval = FALSE}
+for(j in 1 : J) {
+   y[j] ~ dbin(p[j], n[j])
+   logit(p[j]) <- theta[1] + theta[2] * X[j]
+   X[j] ~ dnorm(mu[j], tau)
+   mu[j] <- alpha + beta * Z[j]
+}
+theta[1] ~ dnorm(0.0, 0.001)
+theta[2] ~ dnorm(0.0, 0.001)
+```
+
+
+]
+
+---
+# Contact matrices
+
+```{r show-prem-matrix, echo = FALSE}
+knitr::include_graphics("imgs/prem-age-matrix.png")
+```
+
+
+---
+# Contact matrices
+
+.pull-left[
+```{r show-prem-matrix-data, echo = FALSE}
+knitr::include_graphics("imgs/prem-supp-data.png")
+```
+]
+
+.pull-right[
+```{r show-prem-matrix-excel, echo = FALSE}
+knitr::include_graphics("imgs/prem-excel-data.png")
+```
+
+]
+
+---
+# Contact matrices
+
+```{r show-prem-matrix-excel-data-oz, echo = FALSE}
+knitr::include_graphics("imgs/prem-matrix-excel-australia.png")
+```
+
+
+---
+# Contact matrices
+
+- facilitates fitting
+
+-  https://github.com/kieshaprem/synthetic-contact-matrices
+- 2021 https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005697#abstract0
+- 2017 https://journals.plos.org/ploscompbiol/article/authors?id=10.1371/journal.pcbi.1009098
+
+
+---
+# Contact matrices
 
 
 ---
@@ -675,28 +904,17 @@ formula = pr ~ avg_lower_age + Intercept +
 
 - {`conmat`}
 
-- facilitates fitting
-
-
----
-# Covid19 modelling
-
-- Establishing reproducible pipelines using `targets`
-- Facilitating and performing code review of COVID modelling
-- Helping contributes mesh together
-
-???
-
-- RSEs can make research more producctive
-
 ---
 # RSEs are everywhere!
 
-- A lot of people have been doing this for a long time, it isn't necessarily new,
-but providing a name gives us something to rally behind
+- A lot of people have been doing this for a long time
+- It isn't necessarily new,
+- But providing a name gives us something to rally behind
+- The model "career" doesn't have a lot of evidence yet
+- We still need **credit**
 
 ---
-class: inverse, middle, centre
+class: inverse-orange, middle, centre
 
 # Getting credit for software
 
@@ -704,20 +922,15 @@ class: inverse, middle, centre
 # Getting credit for software
 
 - Citations are one form of credit
-- Google scholar now picks up R packages on CRAN
-
-```{r}
-knitr::include_graphics("imgs/gscholar-naniar.png")
-```
-
-- Reference R monthly R package downloads with a badge:
-
-[![CRAN Downloads Each
+- Google scholar now picks up R packages on CRAN `r knitr::include_graphics("imgs/gscholar-naniar.png")`
+- Reference R monthly R package downloads with a badge: [![CRAN Downloads Each
 Month](https://cranlogs.r-pkg.org/badges/naniar)](https://CRAN.R-project.org/package=naniar)
-
 - From a university/grant writing/job application perspective:
   - Papers (unfortunately) generally count for more beans more than software
-  - Although not strictly true as Monash has recently changed this.
+  
+--
+
+- **Monash University** has recently started crediting statistical software.
 
 ---
 
@@ -734,27 +947,20 @@ Statistical methods:
 - The reviewers review the paper
   - They typically do not review the software or code
 
-You might submit to:
-
-- Journal of Statistical Software
-- ...
-- Journal of Open Research Software
-- The R Journal
-
 ---
 
 # Publishing software as a paper: some issues
 
 You are writing **many times**:
 
-1. Write the method
-2. Write the code
-3. Iterate on the code interface
-4. Write the tests
-5. Documentation
-6. Then an entire paper
+1. **Write** the method
+2. **Write** the code
+3. **Iterate** on the code interface
+4. **Write** the tests
+5. **Write** Documentation
+6. **Write** a **paper**
 
-Not guaranteed that your code is reviewed
+Not guaranteed your code is reviewed
 
 ---
 
@@ -769,16 +975,17 @@ Journal of Open Source Software
 - Paper gets accepted
 - DOI minted
 - Your software is now citable!
+- It is free!
 
 The paper provides a link to the software. It means the person can write
 software and not need to write an entire large paper.
 
----
-# JOSS Submission page
 
-```{r joss-submission, echo = FALSE}
-knitr::include_graphics("imgs/joss-submission.png")
-```
+---
+background-image: url(imgs/joss-submission.png)
+background-size: contain
+background-position: 50% 50%
+class: center, bottom, white
 
 ---
 # JOSS Review process
@@ -788,12 +995,22 @@ knitr::include_graphics("imgs/joss-submission.png")
 ---
 # rOpenSci Software Review
 
+```{r show-ropensci, echo = FALSE, out.width = "20%"}
+knitr::include_graphics("imgs/ropensci.svg")
+```
+
 - More in depth software review backed by their [developer guide](https://devguide.ropensci.org/)
 - Details on how to review + more [here](https://ropensci.org/software-review/)
 - [Guided walk through](https://github.com/ropensci/software-review/issues)
+- [Example package: `ropenaq`](https://github.com/ropensci/software-review/issues/24)
+
 
 ---
 # rOpenSci Statistical Software Review
+
+```{r show-ropensci-again, echo = FALSE, out.width = "20%"}
+knitr::include_graphics("imgs/ropensci.svg")
+```
 
 - Expand the rOpenSci software review to [statistics](https://ropensci.org/stat-software-review/)
 - [Guide to statistical software peer review](https://stats-devguide.ropensci.org/)
@@ -802,13 +1019,29 @@ knitr::include_graphics("imgs/joss-submission.png")
 
 # Getting credit: Awards
 
-- John Chambers Award
-- Di Cook Award for statistical Software (Vic + Tasmania)
+.large[
+- [John Chambers Award For Statistical Software]()
+- [Di Cook Award for statistical Software (Vic + Tasmania)]()
 - [ARDS: A national agenda for research software](https://zenodo.org/record/4940274)
+]
 
+---
 
---- 
-# Changing the values within academia
+# What can you do?
+
+- 
+
+---
+# How can we help sustain this?
+
+- Research money for maintenance of existing software
+- Seed funding for new software ideas
+- If you are a reviewer and people write software, at least entertain the idea that 
+it is valuable. I feel that I hear far too many people say, "oh yes, software is 
+super valuable", and then that's it - show us that it is valuable in the same
+way that people at Monash do. As much as early career researchers like me can
+try and give talks like this, we can only impart so much change.
+
 
 ---
 
@@ -826,28 +1059,23 @@ knitr::include_graphics("imgs/joss-submission.png")
 - Nick Golding
 - Tasmin Symons
 - Miles McBain
-- Karthik Ram
 ]
 
 .large.pull-right[
 - Di Cook
 - Rob Hyndman
+- Karthik Ram
 ]
 
 ---
 
 # Resources
 
-.large[
 - [Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?](https://arxiv.org/pdf/1712.07349.pdf)
 - [A National Agenda for Research Software](https://zenodo.org/record/4940274)
-]
-
-- [The Origins of SageMath; I am leaving academia to build a company](https://www.youtube.com/watch?v=6eIoYMB_0Xc&t=1883s)
-- []()
-
-[My twitter thread containing resources to read](https://twitter.com/nj_tierney/status/1440562571447193608)
-
+- [The Origins of SageMath; I am leaving academia to build a company, William Stein](https://www.youtube.com/watch?v=6eIoYMB_0Xc&t=1883s)
+- [Fernando Pérez's talk]()
+- [My twitter thread asking for resources](https://twitter.com/nj_tierney/status/1440562571447193608)
 
 ---
 
@@ -885,23 +1113,7 @@ knitr::include_graphics("imgs/joss-submission.png")
 **End.**
 ]
 
-
 ---
-
-# Extra content to revisi
-
-
----
-
-# Software can be the realisation of research
-
-e.g.,
-
-- `forecast` by Rob Hyndman
-- `robotics vision toolbox` in MatLab
-- `ggplot2` by Hadley Wickham
-- `dplyr` by Hadley Wickham
-
 
 The point of this section is to discuss the various ways for these avenues to work 
 is to highlight JOSS, and also discuss some approaches that people take,
@@ -911,19 +1123,8 @@ to maintain that software, which there current'y aren't many incentives for you
 to do so
 
 
----
-# Some ideas
-
-- Research money for maintenance of existing software
-- Seed funding for 
 
 ---
-
-# The relationship between software, interface, notation, design, and proofs.
-
-Understanding how complex things can be represented in simpler ways is a useful contribution.
-
-
 
 2008-2012 
 
@@ -977,7 +1178,7 @@ John Tukey, Frederick Mosteller, Bill Cleveland, Dianne Cook, Heike Hoffman, Rob
 
 ---
 
->  It doesn’t matter how good a theoretical solution is, unless there are 
+>  It doesn't matter how good a theoretical solution is, unless there are 
 practical tools that implement it. We must also recognise that humans are an essential part 
 of the data science process and study how they can interact with the computer most 
 effectively. Finding useful abstractions and exposing them through programming languages 
@@ -1003,3 +1204,12 @@ Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?
 
 - Hire RSEs!
   - Here's how you can make the usecase...
+
+
+---
+
+## `brolgar`
+
+```{r echo = FALSE}
+knitr::include_graphics("imgs/brolgar-spaghetti.png")
+```
