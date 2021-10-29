@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
   <head>
-    <title>Awesome title</title>
+    <title>Recognising research software in academia</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Nicholas Tierney, Monash University" />
-    <script src="libs/jquery-1.11.3/jquery.min.js"></script>
-    <script src="libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
-    <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
+    <meta name="author" content="Nicholas Tierney, Telethon Kids Institute" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/jquery-1.12.4/jquery.min.js"></script>
+    <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+    <script src="libs/leaflet-1.3.1/leaflet.js"></script>
+    <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+    <script src="libs/proj4-2.6.2/proj4.min.js"></script>
+    <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+    <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+    <script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
     <link rel="stylesheet" href="njtheme.css" type="text/css" />
     <link rel="stylesheet" href="extra.css" type="text/css" />
     <link rel="stylesheet" href="animate.css" type="text/css" />
@@ -15,16 +22,15 @@
     <textarea id="source">
 class: left, middle, inverse, title-slide
 
-# Awesome title
-## subtitle
-### <span style="font-size: 90%;">Nicholas Tierney, Monash University</span>
-### <span style="font-size: 90%;">CONFERENCE <br><br> MONDAY 1st January, 1920 </span> <br><br> <a href="">LINK</a> <br><br> <a href="https://twitter.com/nj_tierney">nj_tierney</a>
+# Recognising research software in academia
+### <span style="font-size: 90%;">Nicholas Tierney, Telethon Kids Institute</span>
+### <span style="font-size: 90%;">UNSW Seminar<br><br> Friday 29th October, 2021 </span> <br><br> <a href="njt-rse-unsw.netlify.app">https://njt-rse-unsw.netlify.app</a> <br><br> <a href="https://twitter.com/nj_tierney">nj_tierney</a>
 
 ---
 
 
 layout: true
-&lt;div class="my-footer"&gt;&lt;span&gt;bit.ly/LINK • @nj_tierney&lt;/span&gt;&lt;/div&gt; 
+&lt;div class="my-footer"&gt;&lt;span&gt;njt-rse-unsw.netlify.app • @nj_tierney&lt;/span&gt;&lt;/div&gt; 
 
 
 
@@ -32,70 +38,981 @@ layout: true
 
 
 
+
+
+
+
+
+???
+
+Main arguments of the talk:
+
+- We need software to do research
+- Writing research software is a research contribution
+- Research software is critically under-funded and not acknowledged. 
+- We will continue to lose software developers if they are not acknowledged.
+- We must fund and acknowledge software
+- What does a research software engineer do?
+- The history of research software in academia
+- What I do in a day to day role
+- What Academia, and you, can do to help
+
+I'll discuss why we need to consider software as academic output,
+what a research software engineer does, how I work in a team of researchers, 
+and some of the practices I have put in place to maintain reproducibility. 
 
 
 ---
 class: inverse, middle, center
 
-# Intro
+# Your Turn: What software do people use in their research?
+
+
+---
+class: inverse, middle, center
+
+# Your Turn: Has anyone written software for their research and released it into the wild?
+
+---
+class: inverse, middle, center
+
+# Your Turn: Could you do your research without software?
+
+???
+
+(R, Matlab, C, FORTRAN)
+
+---
+class: inverse, middle, center
+
+# Do we need software to do our research?
+
+--
+
+.huge[
+Yes
+]
+
+--
+
+.small[
+(if we want it to work)
+]
 
 ---
 
-# Background
+## Imaging a black hole 
+
+.pull-left[
+
+&lt;img src="imgs/katie-bouman-black-hole.jpeg" width="302" style="display: block; margin: auto;" /&gt;
+
+&gt; Congratulations to Dr. Katie Bouman to whom we owe the first photograph of a black hole ever.
+([from @TamyEmmaPepin](https://twitter.com/TamyEmmaPepin/status/1116014974508371971)
+
+]
+
+.pull-right[
+
+&lt;img src="imgs/black-hole.jpeg" width="341" style="display: block; margin: auto;" /&gt;
+
+&gt; "...There are about 68,000 lines in the current software"
+
+([ABC article](https://www.abc.net.au/news/2019-04-15/black-hole-photo-katie-bouman-trolls/11006820)])
+
+]
 
 ---
 
-Put More slides here.
+# COVID19: Grattan Institute
+
+&lt;img src="imgs/matt-cowgill-grattan.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+(from Grattan institute report: ["Australian governments can choose to slow the spread of coronavirus, but they would need to act immediately"](https://grattan.edu.au/news/australian-governments-can-choose-to-slow-the-spread-of-coronavirus-but-they-must-act-immediately/))
+  
+---
+
+# COVID19: Journalist [@CaseyBriggs](https://twitter.com/CaseyBriggs/status/1452567917149646850/photo/1)
+
+&lt;img src="imgs/casey-briggs-covid-plots.jpeg" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, inverse-orange, middle
+# Writing research software is a research contribution
+
+---
+
+
+
+
+# Functions help us manage complexity
+
+--
+
+For example: R's model syntax 
+
+
+```r
+fit &lt;- lm(y ~ x + factor(z))
+coef(fit)
+```
+
+```
+## (Intercept)           x  factor(z)2  factor(z)3 
+## -0.13905336  0.09075835  0.10754574  0.31957865
+```
+
+```r
+fit |&gt; residuals() |&gt; summary()
+```
+
+```
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -1.87857 -0.69352 -0.08595  0.00000  0.82208  2.23239
+```
+
+
+---
+
+# Functions help us manage complexity
+
+Versus writing a model from scratch
+
+
+```r
+X &lt;- cbind(1, x, z == 2, z == 3)
+fit &lt;- solve(t(X) %*% X) %*% t(X) %*% y
+residuals(fit)
+```
+
+```
+## Error: $ operator is invalid for atomic vectors
+```
+
+```r
+# ugh, residuals...
+```
+
+???
+
+(which is actually a syntactic algebra from a paper ... (heard via Emi Tanaka))
+
+---
+# Functions help us manage complexity
+
+.left-code[
+
+```r
+leaflet() %&gt;%
+  addTiles() %&gt;%  
+  addMarkers(
+    lng = 174.768, 
+    lat = -36.852, 
+    popup = "R's birthplace"
+  )
+```
+]
+
+.right-plot[
+<div id="htmlwidget-054685f39c96f6b55099" style="width:936px;height:432px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-054685f39c96f6b55099">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[-36.852,174.768,null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},"R's birthplace",null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[-36.852,-36.852],"lng":[174.768,174.768]}},"evals":[],"jsHooks":[]}</script>
+]
+
+???
+
+- Functions allow you to abstract complexity so you can individually reason with them
+
+- Assembly --&gt; C --&gt; R --&gt; ggplot
+
+---
+# Abstraction of complexity: similarities between software and maths
+
+--
+
+&gt; Users often remark on the ease of  manipulating data with dplyr and it is natural to wonder if perhaps the task itself is trivial.  We claim it is not. Many probability challenges become dramatically easier, once you **strike  upon the "right" notation**. In both cases, what feels like a matter of notation or syntax is really more about **exploiting the "right" abstraction**.
+
+-- Jenny Bryan &amp; Hadley Wickham  [Data Science: A Three Ring Circus or a Big Tent?](https://arxiv.org/pdf/1712.07349.pdf)
+
+???
+
+This means that it is not just statistical models, but things like dplyr, ggplot
+
+
+---
+# Abstraction of complexity: similarities between software and maths
+
+Notation matters!
+
+--
+
+.large[
+`\(1000000\)` vs `\(1,000,000\)` vs `\(10^6\)`
+]
+
+--
+
+.large[
+`\(1000000 * 10000 * 10000000 * 10000 = ?\)`
+]
+
+--
+
+.large[
+`\(10^6 * 10^4 * 10^7 * 10^4 = 10^{6 + 4 + 7 + 4}\)`
+]
+
+---
+# Abstraction of complexity: similarities between software and maths
+
+"Unmasking the theta method" (Rob Hyndmand &amp; Baki Billah)
+
+&gt; The "Theta method" of forecasting performed particularly well in the M3-
+competition and is therefore of interest to forecast practitioners. The original description
+of the method given by Assimakopoulos and Nikolopoulos (2000) involves **several pages**
+of algebraic manipulation. We show that the method can be **expressed much more simply** and that the forecasts obtained are equivalent to simple exponential smoothing with drift.
+  
+
+---
+class: inverse-orange, middle, centre
+# Research software is critically underfunded and not acknowledged
+
+???
+
+# We continue to lose people
+
+---
+class: inverse, middle, centre
+
+.huge[
+&gt; Every great open source math library is built on the ashes of someone's academic career
+]
+
+---
+
+## William Stein
+
+["The origins of SageMath - I am leaving academia to build a company"](https://wstein.org/talks/2016-06-sage-bp/bp.pdf)
+
+- 1991-93: CS Undergrad
+- 1997-99: Hecke + interpreter in C++
+- 1998: Kohel: Introduced me to both "open source" and
+Magma, and said "too bad you have to write an interpreter"...
+- 1999-2004: wrote a lot of Magma code (3 Sydney visits), and tried
+to convert everyone I met to using Magma.
+- 2004: Problems: Magma is closed source, closed development model, expensive; authorship issues
+- 2005: created SageMath
+- 2016: Left academia to work full time on Sage
+
+---
+## Travis Oliphant
+
+- PhD 2001 from Mayo Clinic in Biomedical Engineering
+- MS/BS in Elec. Comp. Engineering
+- Creator of **`SciPy`**, Author of **`NumPy`** ([The _most_ imported machine learning projects on GitHub](https://venturebeat.com/2019/01/24/github-numpy-and-scipy-are-the-most-popular-packages-for-machine-learning-projects/))
+- Founding chair of Numfocus / PyData
+- Professor at Brigham Young University (2001-2007)
+
+--
+
+**Application for Tenure was denied. Software wasn't counted**.
+
+.small[
+(Abbreviated from [William Stein's talk](https://wstein.org/talks/2016-06-sage-bp/bp.pdf))
+]
+???
+
+Also worth noting that he has had a successful career from here, his company, 
+Continuum Analytics received 24 million dollars in Seris A funding.
+
+---
+## Jack Poulson
+
+&gt; Hi William,
+
+
+&gt; I am sitting on an offer from Google and am increasingly frustrated by 
+continual evidence that **it is more valuable to publish a litany of
+computational papers with no source code than to do the thankless task of
+developing a niche open source library**. Deep mathematical software is
+not appreciated by either the mathematicians or the public.
+I had been on the fence about accepting the offer, and this conversation
+led to me making the difficult decision.
+
+&gt; – [Jack Poulson, Stanford](https://hodgestar.com/jack.html)
+
+.small[
+(Abbreviated from [William Stein's talk](https://wstein.org/talks/2016-06-sage-bp/bp.pdf))
+]
+???
+
+It should be noted that Jack appears to be doing well, had a successful career at Google
+and has his own company, [HodgeStar](https://hodgestar.com/jack.html)
+
+---
+# "The Astropy problem" ([paper](https://arxiv.org/pdf/1610.03159.pdf))
+
+&gt; "[Astropy is] a community effort to develop a single core package for Astronomy in Python and foster interoperability between Python astronomy packages." 
+
+--
+
+&gt; For **five years** this project has been managed, written, and operated as a grassroots, self-organized, **almost entirely volunteer effort** while the software is used by the majority of the astronomical community. 
+
+--
+
+&gt; Despite this, the project has always been and remains to this day **effectively unfunded** . Further, contributors receive **little or no formal recognition** for creating and supporting what is now critical software. 
+
+---
+# Could grant bodies fund Astropy? 
+
+--
+
+&gt;  ..."the NSF hasn't funded software development for many years now, yet software continues to be written, so...?" 
+
+--
+
+&gt; "[The NSF] would consider funding software, but only once it has reached the point where it's very mature and has a large number of users." 
+
+--
+
+&gt; These opinions reflect a gross misunderstanding of the amount of time, effort, and expertise it takes to develop software, let alone specialized, scientific software.
+
+---
+# OK, but how important is astropy?
+
+--
+
+&gt; ... All NASA mission pipelines... [such as the]... venerable Hubble Space Telescope to the upcoming [Nancy Grace Roman Space Telescope], use Astropy.
+
+--
+
+&lt;img src="gifs/office-michael.gif" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# '...Software just, "happens" ???'
+
+&gt; For much of the community, software is something that just "happens" and is expected to be free. 
+
+--
+
+&gt; However, there is a cost and it is clear who is paying it. 
+
+--
+
+&gt; The early career astronomers who contribute the lion's share of the effort do so at the expense of their research and publication output.
+
+---
+# Who is funding scientific software?
+
+&lt;img src="imgs/tensorflow.png" width="89" style="display: block; margin: auto;" /&gt;&lt;img src="imgs/keras.png" width="197" style="display: block; margin: auto;" /&gt;&lt;img src="imgs/pytorch.png" width="456" style="display: block; margin: auto;" /&gt;
+
+
+???
+
+
+---
+## What happens if you don't fund software
+
+--
+
+&gt; By 2014, two-thirds of all Web servers were using OpenSSL, enabling
+websites to securely pass credit card and other sensitive information
+over the Internet
+
+--
+
+&gt; ...the project continued to be informally managed by a
+**small handful** of volunteers. 
+
+--
+
+&gt; ... a Google engineer named Neel Mehta stumbled upon a
+major flaw in OpenSSL's software...
+
+(from ["Roads and Bridges: The Unseen Labor Behind Our Digital Infrastructure](https://www.fordfoundation.org/media/2976/roads-and-bridges-the-unseen-labor-behind-our-digital-infrastructure.pdf))
+
+
+
+---
+## What happens if you don't fund software
+
+
+&gt; That bug, nicknamed Heartbleed, had been included in a 2011
+update. **It had gone unnoticed for years**. Heartbleed could allow any
+sophisticated hacker to capture secure information being passed to
+vulnerable web servers, including passwords, credit card information,
+and other sensitive data.
+
+--
+
+&gt; The mystery is not that a few overworked volunteers missed this bug; the mystery is why it hasn't happened more often."
+
+
+(from ["Roads and Bridges: The Unseen Labor Behind Our Digital Infrastructure](https://www.fordfoundation.org/media/2976/roads-and-bridges-the-unseen-labor-behind-our-digital-infrastructure.pdf))
+
+---
+# What happens if you don't fund software: [`elemental`](https://github.com/elemental/Elemental)
+
+.pull-left[
+&lt;img src="imgs/elemental.png" width="374" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="imgs/elemental-deprecate.png" width="368" style="display: block; margin: auto;" /&gt;
+]
+
+
+???
+
+[`elemental`](https://github.com/elemental/Elemental) C++ library for distributed-memory dense and sparse-direct linear algebra, conic optimization, and lattice reduction
+
+---
+# Research: "done" vs Software: "Maintained"
+
+--
+
+.pull-left[
+
+Research:
+
+- 3 year research plan
+- Survey population
+- Get + share data
+- Develop model, write about insights
+- Submit paper
+- reject/revise/publish
+- paper published
+- That component is done
+
+]
+
+--
+
+.pull-right[
+Software:
+
+- 3 years of funding
+- Create software to perform modelling
+- Develop tests, documentation, examples
+- Extend to other niche use cases
+- Add features requested by community
+- **Ongoing maintenance**
+
+]
+
+---
+class: inverse-orange, middle, center
+
+# Can we at least give software developers in academia a name?
+
+--
+
+# A research software engineer!
+
+---
+# A not-so-brief history of Research Software Engineers (Abridged)
+
+&gt; Many academics were aware of the importance of software to research; they could see that the people who created this software went largely unrecognised, and they were beginning to worry about the consequences of this oversight. What happens when something is so vital to research, yet overlooked and severely under-resourced? 
+
+(From the [eponymous paper](https://www.software.ac.uk/blog/2016-08-17-not-so-brief-history-research-software-engineers-0))
+
+---
+# Define: Research Software Engineer
+
+&gt; A Research Software Engineer (RSE) combines professional software engineering expertise with an intimate understanding of research.
+
+-- (from https://society-rse.org/about/)
+
+--
+
+&gt; The Society of Research Software Engineering was founded on the belief that a world which relies on software must recognise the people who develop it.
+
+
+---
+## Research software engineer vs Software Engineer
+
+**Researcher**
+
+- Create statistical model of malaria for given region
+
+--
+
+**Software engineer**: 
+
+- Take existing code base, and productionise in containers to run on the web
+
+--
+
+**Research software engineer**: 
+
+- Identify abstractions, create software that lets researchers write code focussing on the models 
+
+
+---
+
+# Malaria modelling
+
+[`yahtsee` (Yet Another Hierarchical Time Series Extension + Expansion)](https://github.com/njtierney/yahtsee)
+
+.left-code[
+```r
+m &lt;- fit_hts(
+  formula = pr ~ avg_lower_age + 
+  hts(who_region, 
+      who_subregion,
+      country),
+  .data = malaria_africa_ts,
+  family = "gaussian"
+)
+```
+]
+
+.right-plot[
+
+```
+## # A tsibble: 1,046 x 15 [1D]
+## # Key:       country [46]
+##    who_region who_subregion country date       month_num positive examined
+##    &lt;fct&gt;      &lt;fct&gt;         &lt;fct&gt;   &lt;date&gt;         &lt;dbl&gt;    &lt;dbl&gt;    &lt;int&gt;
+##  1 AFRO       AFRO-W        Angola  1989-06-01       120     15.8       50
+##  2 AFRO       AFRO-W        Angola  2005-11-01       372     82        111
+##  3 AFRO       AFRO-W        Angola  2006-04-01       300    102        197
+##  4 AFRO       AFRO-W        Angola  2006-11-01       384     41        347
+##  5 AFRO       AFRO-W        Angola  2006-12-01       396    173        734
+##  6 AFRO       AFRO-W        Angola  2007-01-01       276    216        828
+##  7 AFRO       AFRO-W        Angola  2007-02-01       288     42         71
+##  8 AFRO       AFRO-W        Angola  2007-03-01       300    119        448
+##  9 AFRO       AFRO-W        Angola  2011-01-01       324      1        239
+## 10 AFRO       AFRO-W        Angola  2011-02-01       336    148       1132
+## # … with 1,036 more rows, and 8 more variables: pr &lt;dbl&gt;, avg_lower_age &lt;dbl&gt;,
+## #   continent_id &lt;fct&gt;, country_id &lt;fct&gt;, year &lt;int&gt;, month &lt;int&gt;,
+## #   avg_upper_age &lt;dbl&gt;, species &lt;fct&gt;
+```
+
+]
+
+
+---
+
+# Malaria modelling
+
+
+```r
+cleaned_data &lt;- data %&gt;%
+    as_tibble() %&gt;%
+    group_by(who_region) %&gt;%
+    transmute(.who_region_id = cur_group_id()) %&gt;%
+    ungroup(who_region) %&gt;%
+    select(-who_region) %&gt;% 
+    group_by(who_subregion) %&gt;%
+    transmute(.who_subregion_id = cur_group_id()) %&gt;%
+    ungroup(who_subregion) %&gt;%
+    select(-who_subregion) %&gt;% 
+    group_by(country) %&gt;%
+    transmute(.country_id = cur_group_id()) %&gt;%
+    ungroup(country) %&gt;%
+    select(-country) 
+```
+---
+
+# Malaria modelling
+
+```r
+model &lt;- inlabru::bru(
+formula = pr ~ avg_lower_age + Intercept + 
+  who_region(month_num, 
+             model = "ar1", 
+             group = .who_region_id,
+             constr = FALSE) + 
+  who_subregion(month_num, 
+                model = "ar1", 
+                group = .who_subregion_id, 
+                constr = FALSE) + 
+  country(month_num, 
+          model = "ar1", 
+          group = .country_id, 
+          constr = FALSE),
+    family = "gaussian",
+    data = malaria_africa_ts,
+    options = list(control.compute = list(config = TRUE),
+                   control.predictor = list(compute = TRUE, link = 1))
+    )
+```
+
+
+---
+
+# Malaria modelling
+
+[`yahtsee` (Yet Another Hierarchical Time Series Extension + Expansion)](https://github.com/njtierney/yahtsee)
+
+```r
+m &lt;- fit_hts(
+  formula = pr ~ avg_lower_age + 
+  hts(who_region, 
+      who_subregion,
+      country),
+  .data = malaria_africa_ts,
+  family = "gaussian"
+)
+```
+
+---
+# What sorts of things does an RSE do?
+
+.large[
+- Create software to **solve research problems**
+- Develop tools that **abstract the right components** to facilitate research
+- Help researchers to **find and learn** good tools
+- Support researchers with (computational) reproducibility
+]
+
+(adapted from Heidi Seibold's [UseR2021 Keynote talk](https://docs.google.com/presentation/d/1XQc2U2X8hiK43UzUi9IwvsvULxhVy0WzWSa_Kt4ZJv4/view#slide=id.gdbfb32d486_0_448))
+
+
+---
+# My journey into the RSE world
+
+2008-2012:  Undergraduate + honours in Psychology
+
+--
+
+2013 - 2017: PhD Statistics
+
+- Exploratory Data Analysis (EDA)
+- Bayesian Statistics
+
+--
+
+2018 - 2020: Research Fellow / Lecturer at Monash
+
+  - Design and improve tools for (exploratory) data analysis
+  - Teach introduction to data analysis (ETC1010)
+
+---
+    
+# EDA: Exploratory Data Analysis
+
+.large[
+&gt; ...EDA is an approach to analyzing data sets to summarize their main characteristics, often with visual methods. (Wikipedia)
+
+John Tukey, Frederick Mosteller, Bill Cleveland, Dianne Cook, Heike Hoffman, Rob Hyndman, Hadley Wickham
+]
+
+---
+
+# EDA: Why it's worth it
+
+&lt;img src="gifs/dino-saurus.gif" style="display: block; margin: auto;" /&gt;
+
+-- From ["Same Stats, Different Graphs: Generating Datasets with Varied Appearance and Identical Statistics through Simulated Annealing"](https://www.autodeskresearch.com/publications/samestats)
+
+---
+
+## `visdat::vis_dat(airquality)`
+
+&lt;img src="figures/show-visdat-1.png" width="150%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## `naniar::gg_miss_var(airquality)`
+
+&lt;img src="figures/gg-miss-var-1.png" width="150%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## `brolgar` - take spaghetti
+
+&lt;img src="figures/gg-brolgar-1.png" width="936" style="display: block; margin: auto;" /&gt;
+
+---
+
+## `brolgar` - sample spaghetti
+
+
+&lt;img src="figures/gg-brolgar-sample-1.png" width="936" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## `brolgar` - spread spaghetti
+
+
+&lt;img src="figures/gg-brolgar-spread-1.png" width="936" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, middle, center
+# What do I do as an RSE?
+
+---
+
+## [{greta}: scalable statistical inference](https://greta-stats.org/)
+
+--
+
+Created by Professor Nick Golding
+
+--
+
+.pull-left[
+
+greta 
+
+```r
+theta &lt;- normal(0, 32, dim = 2)
+mu &lt;- alpha + beta * Z
+X &lt;- normal(mu, sigma)
+p &lt;- ilogit(theta[1] + theta[2] * X)
+distribution(y) &lt;- binomial(n, p)
+```
+
+
+]
+
+--
+
+.pull-right[
+
+BUGS
+
+
+```r
+for(j in 1 : J) {
+   y[j] ~ dbin(p[j], n[j])
+   logit(p[j]) &lt;- theta[1] + theta[2] * X[j]
+   X[j] ~ dnorm(mu[j], tau)
+   mu[j] &lt;- alpha + beta * Z[j]
+}
+theta[1] ~ dnorm(0.0, 0.001)
+theta[2] ~ dnorm(0.0, 0.001)
+```
+
+
+]
+
+---
+# Contact matrices - [Prem et al](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005697#sec020)
+
+&lt;img src="imgs/prem-age-matrix.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Contact matrices
+
+.pull-left[
+&lt;img src="imgs/prem-supp-data.png" width="428" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="imgs/prem-excel-data.png" width="295" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+# Contact matrices
+
+&lt;img src="imgs/prem-matrix-excel-australia.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+# Contact matrices
+
+&lt;img src="imgs/patchwork-contact.png" width="2667" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Contact matrices
+
+- `conmat` (name in progress) package facilitates contact matrix analysis
+- Nick Golding contributed statistical modelling
+- I implemented package design, infrastructure, tests, documentation
+- absolutely critical in recent national covid19 modelling to prime ministers cabinet
+- package available on [github](https://github.com/njtierney/conmat)
+
+???
+
+-  https://github.com/kieshaprem/synthetic-contact-matrices
+- 2021 https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005697#abstract0
+- 2017 https://journals.plos.org/ploscompbiol/article/authors?id=10.1371/journal.pcbi.1009098
+
+
+---
+# RSEs are everywhere!
+
+- A lot of people have been doing this for a long time
+- It isn't necessarily new,
+- But providing a name gives us something to rally behind
+- The model "career" doesn't have a lot of evidence yet
+- We still need **credit**
+
+---
+class: inverse-orange, middle, centre
+
+# Getting credit for software
+
+---
+# Getting credit for software
+
+- Citations are one form of credit
+- Google scholar now picks up R packages on CRAN &lt;img src="imgs/gscholar-naniar.png" width="1128" style="display: block; margin: auto;" /&gt;
+- Reference R monthly R package downloads with a badge: [![CRAN Downloads Each
+Month](https://cranlogs.r-pkg.org/badges/naniar)](https://CRAN.R-project.org/package=naniar)
+- From a university/grant writing/job application perspective:
+  - Papers (unfortunately) generally count for more beans more than software
+  
+--
+
+**Monash University** has recently started crediting statistical software!
+
+---
+
+# Publishing software as a paper
+
+Statistical methods:
+
+- Create a new method
+- Write code to implement the new method
+- Ensure code is easy to use for other people
+- Write documentation for the software
+- Write tests to ensure the software works
+- Write a paper about the new method, which links the paper to the method, to the software
+- The reviewers review the paper
+  - They typically do not review the software or code
+
+---
+
+# Publishing software as a paper: some issues
+
+You are writing **many times**:
+
+1. **Write** the method
+2. **Write** the code
+3. **Iterate** on the code interface
+4. **Write** the tests
+5. **Write** Documentation
+6. **Write** a **paper**
+
+Not guaranteed your code is reviewed
+
+---
+
+# Publishing software as a paper: JOSS
+
+Journal of Open Source Software
+
+- Write the code, tests, documentation
+- Provide a short 1-2 page abstract.
+- The code gets reviewed
+- Changes made
+- Paper gets accepted
+- DOI minted
+- Your software is now citable!
+- It is free!
+
+The paper provides a link to the software. It means the person can write
+software and not need to write an entire large paper.
+
+
+---
+background-image: url(imgs/joss-submission.png)
+background-size: contain
+background-position: 50% 50%
+class: center, bottom, white
+
+---
+# JOSS Review process
+
+- [Guided walk through](https://github.com/openjournals/joss-reviews/issues)
+
+---
+# rOpenSci Software Review
+
+&lt;img src="imgs/ropensci.svg" width="20%" style="display: block; margin: auto;" /&gt;
+
+- More in depth software review backed by their [developer guide](https://devguide.ropensci.org/)
+- Details on how to review + more [here](https://ropensci.org/software-review/)
+- [Guided walk through](https://github.com/ropensci/software-review/issues)
+- [Example package: `ropenaq`](https://github.com/ropensci/software-review/issues/24)
+
+
+---
+# rOpenSci Statistical Software Review
+
+&lt;img src="imgs/ropensci.svg" width="20%" style="display: block; margin: auto;" /&gt;
+
+- Expand the rOpenSci software review to [statistics](https://ropensci.org/stat-software-review/)
+- [Guide to statistical software peer review](https://stats-devguide.ropensci.org/)
+
+---
+
+# Getting credit: Awards / recognition
+
+.large[
+- [John M. Chambers Statistical Software Award](https://community.amstat.org/jointscsg-section/awards/john-m-chambers)
+- [Di Cook Award for statistical Software (Vic + Tasmania)](https://www.statsoc.org.au/Di-Cook-Award)
+- [ARDS: A national agenda for research software](https://zenodo.org/record/4940274)
+]
+
+---
+
+# What can you do? How can we help sustain this?
+
+- Research money for maintenance of existing software
+- Seed funding for new software ideas
+- Are you a reviewers? On grant committees? Heads of school?
+- Talk about the importance of software
+- **Count** software when reviewing applications and grants
+- **cite** software when you use it in your research!
+- Consider hiring RSEs!
+
+???
+
+it is valuable. I feel that I hear far too many people say, "oh yes, software is 
+super valuable", and then that's it - show us that it is valuable in the same
+way that people at Monash do. As much as early career researchers like me can
+try and give talks like this, we can only impart so much change.
+
 
 ---
 
 # Take homes
 
----
-
-# Future Directions
-
-.large[
-- More features
-- More features
-- More features
-]
-
----
-
-# Test
-
-.small[small]
-.
+- We need software to do research
+- Writing research software is a research contribution
+- Research software is critically underfunded and now acknowledged. 
+- If we don't acknowledge and support it, we will lose people
+- We need to think about how we fund and support those who write software
+- RSEs are one path to helping enable and facilitate research impact
+- We all need to work together to acknowledge software
 
 ---
 
 # Thanks
 
 .large.pull-left[
-- So many great people
-- So many great people
-- So many great people
-- So many great people
+- Nick Golding
+- Tasmin Symons
+- Miles McBain
 ]
 
 .large.pull-right[
-- So many great people
-- So many great people
-- So many great people
-- So many great people
+- Di Cook
+- Rob Hyndman
+- Karthik Ram
 ]
 
 ---
 
 # Resources
 
-.large[
-- So many things
-- So many things
-- So many things
-- So many things
-]
+- [Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?](https://arxiv.org/pdf/1712.07349.pdf)
+- [A National Agenda for Research Software](https://zenodo.org/record/4940274)
+- [The Origins of SageMath; I am leaving academia to build a company, William Stein](https://www.youtube.com/watch?v=6eIoYMB_0Xc&amp;t=1883s)
+- [Fernando Pérez's talk]()
+- [My twitter thread asking for resources](https://twitter.com/nj_tierney/status/1440562571447193608)
+- [100 papers published in JOSS](https://blog.joss.theoj.org/2020/08/1000-papers-published-in-joss)
+- [Journal of Open Source Software (JOSS):
+design and first-year review](https://peerj.com/articles/cs-147.pdf)
 
 ---
 
@@ -116,15 +1033,13 @@ Put More slides here.
 # Learning more
 
 .large[
-<i class="fas  fa-box-open "></i> [package link]()
+&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"&gt;&lt;/path&gt;&lt;/svg&gt; [talk link](https://njt-rse-unsw.netlify.app)
 
-<i class="fas  fa-link "></i> [talk link]()
+&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt; nj_tierney
 
-<i class="fab  fa-twitter "></i> nj_tierney
+&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt; njtierney
 
-<i class="fab  fa-github "></i> njtierney
-
-<i class="fas  fa-paper-plane "></i> nicholas.tierney@gmail.com
+&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M440 6.5L24 246.4c-34.4 19.9-31.1 70.8 5.7 85.9L144 379.6V464c0 46.4 59.2 65.5 86.6 28.6l43.8-59.1 111.9 46.2c5.9 2.4 12.1 3.6 18.3 3.6 8.2 0 16.3-2.1 23.6-6.2 12.8-7.2 21.6-20 23.9-34.5l59.4-387.2c6.1-40.1-36.9-68.8-71.5-48.9zM192 464v-64.6l36.6 15.1L192 464zm212.6-28.7l-153.8-63.5L391 169.5c10.7-15.5-9.5-33.5-23.7-21.2L155.8 332.6 48 288 464 48l-59.4 387.3z"&gt;&lt;/path&gt;&lt;/svg&gt; nicholas.tierney@gmail.com
 
 ]
 
@@ -134,6 +1049,38 @@ Put More slides here.
 .vhuge[
 **End.**
 ]
+
+???
+# What does academia value?
+
+&gt; The incentive structures of academic statistics still signal that mathematical statistics and the creation of new models and inferential procedures are more valuable than work related to data manipulation, visualisation, and programming. This is reflected in the content of for-credit courses, qualifying exams, and standards for funding and promotion.... It can be very difficult to  present modern data scientific work as impactful scholarly activity, when the system still  defines that primarily as theory and methodology papers.
+
+-- Jenny Bryan &amp; Hadley Wickham
+
+&gt; The basic practices of modularity, testing, version control, packaging, and interface design are not mere niceties. They determine whether data scientific  products can actually be trusted and built upon, like a proof in mathematics
+
+-- Jenny Bryan &amp; Hadley Wickham
+
+
+&gt;  It doesn't matter how good a theoretical solution is, unless there are 
+practical tools that implement it. We must also recognise that humans are an essential part 
+of the data science process and study how they can interact with the computer most 
+effectively. Finding useful abstractions and exposing them through programming languages 
+is an important part of this process
+
+-- Jenny Bryan &amp; Hadley Wickham
+
+Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?
+
+# Having RSEs in your team
+
+- Proactive vs Reactive research software
+  - Proactive: designs code that can be maintaed easily, for 10 years, is documented well, is tested, is maintainable
+  - Reactive: taking existing code and cleaning it up so it can be used for other use cases
+- More haste less speed: do it well so you can do it quickly
+- Examples of the types of RSE projects
+  - What sort of skillset they need, and how it contributes to reserach impacrt
+- How would having an RSE inprove the impact of the work?
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -141,7 +1088,8 @@ Put More slides here.
 "ratio": "16:9",
 "highlightStyle": "github",
 "highlightLines": true,
-"countIncrementalSlides": false
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
@@ -182,6 +1130,32 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
 // adds .remark-code-has-line-highlighted class to <pre> parent elements
 // of code chunks containing highlighted lines with class .remark-code-line-highlighted
 (function(d) {
@@ -199,17 +1173,6 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   }
   preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
 })(document);</script>
-
-<script>
-(function() {
-  var links = document.getElementsByTagName('a');
-  for (var i = 0; i < links.length; i++) {
-    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
-      links[i].target = '_blank';
-    }
-  }
-})();
-</script>
 
 <script>
 slideshow._releaseMath = function(el) {

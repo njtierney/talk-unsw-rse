@@ -1,5 +1,5 @@
 # Recognising research software in academia
-<!-- NETLIFY BADGE SHOULD GO HERE-->
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2c6e2442-322c-4896-b249-25438636f92b/deploy-status)](https://app.netlify.com/sites/njt-rse-unsw/deploys)
 
 A talk about research software engineering in academia
 
@@ -19,7 +19,7 @@ Specifically, I'll discuss why we need to consider software as academic output,
 what a research software engineer does, how I work in a team of researchers, 
 and some of the practices I have put in place to maintain reproducibility. 
 
-# Slide available [here](https://bit.ly/FILL-ME-IN)
+# Slide available [here](njt-rse-unsw.netlify.app)
 
 # Take home messages 
 

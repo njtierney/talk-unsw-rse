@@ -26,12 +26,25 @@ synthetic_settings_5y_hobart <- predict_setting_contacts(
 )
 
 # this code is erroring for the moment - something to do with rendering a large plot I think.
-plot_matrix(synthetic_settings_5y_alice$home)
-plot_matrix(synthetic_settings_5y_hobart$home)
 
-plot_matrix(synthetic_settings_5y_alice$work)
-plot_matrix(synthetic_settings_5y_hobart$work)
+alice_plot <- plot_matrix(synthetic_settings_5y_alice$home) + 
+  labs(title = "Home synthetic contact matrix for Alice Springs")
 
+hobart_plot <- plot_matrix(synthetic_settings_5y_hobart$home) + 
+  labs(title = "Home synthetic contact matrix for Hobart")
+
+library(patchwork)
+
+patch_plot <- alice_plot + hobart_plot
+
+ggsave(
+  filename = "patchwork-contact.png",
+  plot = patch_plot,
+  path = "slides/imgs/",
+  width = 10,
+  dpi = 600,
+  height = 4,
+)
 
 plot_setting_matrices(
   synthetic_settings_5y_alice,

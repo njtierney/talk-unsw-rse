@@ -2,7 +2,7 @@
 title: 'Recognising research software in academia'
 subtitle: ""  
 author: "<span style = 'font-size: 90%;'>Nicholas Tierney, Telethon Kids Institute</span>"
-date: "<span style = 'font-size: 90%;'>UNSW Seminar<br><br> Friday 29th October, 2021 </span> <br><br> `r #icons::fa('link')` [LINK]() <br><br>`r #icons::fa('twitter')` [nj_tierney](https://twitter.com/nj_tierney)"
+date: "<span style = 'font-size: 90%;'>UNSW Seminar<br><br> Friday 29th October, 2021 </span> <br><br> `r #icons::fa('link')` [https://njt-rse-unsw.netlify.app](njt-rse-unsw.netlify.app) <br><br>`r #icons::fa('twitter')` [nj_tierney](https://twitter.com/nj_tierney)"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -17,7 +17,7 @@ output:
 ---
 
 layout: true
-<div class="my-footer"><span>bit.ly/LINK • @nj_tierney</span></div> 
+<div class="my-footer"><span>njt-rse-unsw.netlify.app • @nj_tierney</span></div> 
 
 ```{r setup, include=FALSE}
 # options(htmltools.dir.version = FALSE, width = 120)
@@ -176,15 +176,17 @@ Yes
 
 ---
 
-# Imaging a black hole 
+## Imaging a black hole 
 
 .pull-left[
+
 ```{r show-black-hole-code, echo = FALSE}
 knitr::include_graphics("imgs/katie-bouman-black-hole.jpeg")
 ```
 
 > Congratulations to Dr. Katie Bouman to whom we owe the first photograph of a black hole ever.
 ([from @TamyEmmaPepin](https://twitter.com/TamyEmmaPepin/status/1116014974508371971)
+
 ]
 
 .pull-right[
@@ -194,24 +196,16 @@ knitr::include_graphics("imgs/black-hole.jpeg")
 ```
 
 > "...There are about 68,000 lines in the current software"
+
 ([ABC article](https://www.abc.net.au/news/2019-04-15/black-hole-photo-katie-bouman-trolls/11006820)])
+
 ]
-
-
-
----
-
-# COVID19
-
-- Doherty Report
-
-(from: https://www.pmc.gov.au/sites/default/files/files/findings-and-implications-of-doherty-institute-covid-19-modelling-and-sensitivity-analysis-presentation.pdf)
 
 ---
 
 # COVID19: Grattan Institute
 
-```{r grattan-vis, echo = FALSE, out.width = "90%"}
+```{r grattan-vis, echo = FALSE, out.width = "50%"}
 knitr::include_graphics("imgs/matt-cowgill-grattan.png")
 ```
 
@@ -221,13 +215,13 @@ knitr::include_graphics("imgs/matt-cowgill-grattan.png")
 
 # COVID19: Journalist [@CaseyBriggs](https://twitter.com/CaseyBriggs/status/1452567917149646850/photo/1)
 
-```{r show-covid-casey, echo = FALSE, out.height = "90%"}
+```{r show-covid-casey, echo = FALSE,  out.width = "50%"}
 include_graphics("imgs/casey-briggs-covid-plots.jpeg")
 ```
 
 ---
 class: center, inverse-orange, middle
-# Premise 1: Writing research software is a research contribution
+# Writing research software is a research contribution
 
 ---
 
@@ -240,6 +234,8 @@ y <- rnorm(n)
 
 
 # Functions help us manage complexity
+
+--
 
 For example: R's model syntax 
 
@@ -338,14 +334,12 @@ $10^6 * 10^4 * 10^7 * 10^4 = 10^{6 + 4 + 7 + 4}$
 > The "Theta method" of forecasting performed particularly well in the M3-
 competition and is therefore of interest to forecast practitioners. The original description
 of the method given by Assimakopoulos and Nikolopoulos (2000) involves **several pages**
-of algebraic manipulation. We show that the method can be expressed much more
-simply and that the forecasts obtained are equivalent to simple exponential smoothing
-with drift.
+of algebraic manipulation. We show that the method can be **expressed much more simply** and that the forecasts obtained are equivalent to simple exponential smoothing with drift.
   
 
 ---
 class: inverse-orange, middle, centre
-# Premise 2: Research software is critically underfunded and not acknowledged. 
+# Research software is critically underfunded and not acknowledged
 
 ???
 
@@ -357,6 +351,22 @@ class: inverse, middle, centre
 .huge[
 > Every great open source math library is built on the ashes of someone's academic career
 ]
+
+---
+
+## William Stein
+
+["The origins of SageMath - I am leaving academia to build a company"](https://wstein.org/talks/2016-06-sage-bp/bp.pdf)
+
+- 1991-93: CS Undergrad
+- 1997-99: Hecke + interpreter in C++
+- 1998: Kohel: Introduced me to both "open source" and
+Magma, and said "too bad you have to write an interpreter"...
+- 1999-2004: wrote a lot of Magma code (3 Sydney visits), and tried
+to convert everyone I met to using Magma.
+- 2004: Problems: Magma is closed source, closed development model, expensive; authorship issues
+- 2005: created SageMath
+- 2016: Left academia to work full time on Sage
 
 ---
 ## Travis Oliphant
@@ -462,31 +472,18 @@ knitr::include_graphics("gifs/office-michael.gif")
 ---
 # Who is funding scientific software?
 
-.pull-left.left[
 ```{r show-pytorch, echo = FALSE}
 knitr::include_graphics("imgs/tensorflow.png")
 knitr::include_graphics("imgs/keras.png")
 knitr::include_graphics("imgs/pytorch.png")
 ```
-]
 
-.pull-right[
-```{r show-companies, echo = FALSE, out.with = "50%"}
-knitr::include_graphics("imgs/google.png")
-knitr::include_graphics("imgs/facebook.png")
-```
-
-]
 
 ???
 
 
 ---
-# What happens if you don't fund software: Heartbleed OpenSSL bug
-
-```{r show-heartbleed, echo = FALSE}
-knitr::include_graphics("imgs/heartbleed.png")
-```
+## What happens if you don't fund software
 
 --
 
@@ -497,20 +494,23 @@ over the Internet
 --
 
 > ...the project continued to be informally managed by a
-small handful of volunteers. 
+**small handful** of volunteers. 
 
 --
 
-> The OpenSSL team continued to work in relative obscurity until April
-2014, when a Google engineer named Neel Mehta stumbled upon a
-major flaw in OpenSSL's software. Two days later, another engineer
-at the Finnish company Codenomicon discovered the same problem.
-Both of them immediately contacted the OpenSSL team.
+> ... a Google engineer named Neel Mehta stumbled upon a
+major flaw in OpenSSL's software...
 
---
+(from ["Roads and Bridges: The Unseen Labor Behind Our Digital Infrastructure](https://www.fordfoundation.org/media/2976/roads-and-bridges-the-unseen-labor-behind-our-digital-infrastructure.pdf))
+
+
+
+---
+## What happens if you don't fund software
+
 
 > That bug, nicknamed Heartbleed, had been included in a 2011
-update. It had gone unnoticed for years. Heartbleed could allow any
+update. **It had gone unnoticed for years**. Heartbleed could allow any
 sophisticated hacker to capture secure information being passed to
 vulnerable web servers, including passwords, credit card information,
 and other sensitive data.
@@ -520,27 +520,23 @@ and other sensitive data.
 > The mystery is not that a few overworked volunteers missed this bug; the mystery is why it hasn't happened more often."
 
 
----
-# What happens if you don't fund software: Heartbleed OpenSSL bug
-
-```{r show-heartbleed, echo = FALSE}
-knitr::include_graphics("imgs/heartbleed.png")
-```
-
---
-
-> Many of these projects are built and maintained by volunteers and offered to the public for free. Anyone, from Facebook to an amateur programmer, can use that code to build their own apps. And they do. If it sounds unbelievable that, as Marquess puts it, a "ragtag group of amateurs could outcompete huge corporations with their money and resources," consider how this work reflects the rise of peer-to-peer
-collaboration around the world.
-
 (from ["Roads and Bridges: The Unseen Labor Behind Our Digital Infrastructure](https://www.fordfoundation.org/media/2976/roads-and-bridges-the-unseen-labor-behind-our-digital-infrastructure.pdf))
 
 ---
 # What happens if you don't fund software: [`elemental`](https://github.com/elemental/Elemental)
 
-
+.pull-left[
 ```{r show-elemental, echo = FALSE}
 knitr::include_graphics("imgs/elemental.png")
 ```
+]
+
+.pull-right[
+```{r show-elemental-dep, echo = FALSE}
+knitr::include_graphics("imgs/elemental-deprecate.png")
+```
+]
+
 
 ???
 
@@ -609,21 +605,23 @@ class: inverse-orange, middle, center
 
 
 ---
-# Research software engineer != Software Engineer
+## Research software engineer vs Software Engineer
 
-Researcher: create statistical model of malaria for given region
+**Researcher**
 
---
-
-Software engineer: Take existing code base, and productionise in containers to run on the web
+- Create statistical model of malaria for given region
 
 --
 
-Research software engineer: Identify abstractions, build code that lets researchers write code that lets them focus on their models 
+**Software engineer**: 
+
+- Take existing code base, and productionise in containers to run on the web
 
 --
 
-For example...
+**Research software engineer**: 
+
+- Identify abstractions, create software that lets researchers write code focussing on the models 
 
 
 ---
@@ -632,7 +630,7 @@ For example...
 
 [`yahtsee` (Yet Another Hierarchical Time Series Extension + Expansion)](https://github.com/njtierney/yahtsee)
 
-.pull-left[
+.left-code[
 ```r
 m <- fit_hts(
   formula = pr ~ avg_lower_age + 
@@ -645,7 +643,7 @@ m <- fit_hts(
 ```
 ]
 
-.pull-right[
+.right-plot[
 ```{r show-data, echo = FALSE}
 yahtsee::malaria_africa_ts
 ```
@@ -699,6 +697,24 @@ formula = pr ~ avg_lower_age + Intercept +
     )
 ```
 
+
+---
+
+# Malaria modelling
+
+[`yahtsee` (Yet Another Hierarchical Time Series Extension + Expansion)](https://github.com/njtierney/yahtsee)
+
+```r
+m <- fit_hts(
+  formula = pr ~ avg_lower_age + 
+  hts(who_region, 
+      who_subregion,
+      country),
+  .data = malaria_africa_ts,
+  family = "gaussian"
+)
+```
+
 ---
 # What sorts of things does an RSE do?
 
@@ -715,9 +731,19 @@ formula = pr ~ avg_lower_age + Intercept +
 ---
 # My journey into the RSE world
 
-- 2008-2012:  Undergraduate + honours in Psychology
-- 2013 - 2017: PhD Statistics (EDA + Bayes)
-- 2018 - 2020: Research Fellow / Lecturer at Monash
+2008-2012:  Undergraduate + honours in Psychology
+
+--
+
+2013 - 2017: PhD Statistics
+
+- Exploratory Data Analysis (EDA)
+- Bayesian Statistics
+
+--
+
+2018 - 2020: Research Fellow / Lecturer at Monash
+
   - Design and improve tools for (exploratory) data analysis
   - Teach introduction to data analysis (ETC1010)
 
@@ -789,7 +815,7 @@ ggplot(heights,
 ## `brolgar` - spread spaghetti
 
 
-```{r gg-brolgar-spread, fig.height = 3.5, fig.width = 8, out.width = "150%", echo = FALSE}
+```{r gg-brolgar-spread, echo = FALSE}
 ggplot(heights,
        aes(x = year,
            y = height_cm,
@@ -804,26 +830,17 @@ class: inverse, middle, center
 
 ---
 
-# {greta}: scalable statistical inference
+## [{greta}: scalable statistical inference](https://greta-stats.org/)
 
 --
 
-```r
-y <- c(21, 20, 15)
-n <- c(48, 34, 21)
-Z <- c(10, 30, 50)
-alpha <- 4.48
-beta <- 0.76
-sigma2 <- 81.14
-sigma <- sqrt(sigma2)
-tau <- 1 / sigma2
-J <- 3
-```
+Created by Professor Nick Golding
 
 --
 
 .pull-left[
 
+greta 
 ```{r greta-code, eval = FALSE}
 theta <- normal(0, 32, dim = 2)
 mu <- alpha + beta * Z
@@ -838,6 +855,8 @@ distribution(y) <- binomial(n, p)
 --
 
 .pull-right[
+
+BUGS
 
 ```{r bugs-code, eval = FALSE}
 for(j in 1 : J) {
@@ -854,9 +873,9 @@ theta[2] ~ dnorm(0.0, 0.001)
 ]
 
 ---
-# Contact matrices
+# Contact matrices - [Prem et al](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005697#sec020)
 
-```{r show-prem-matrix, echo = FALSE}
+```{r show-prem-matrix, echo = FALSE, out.width = "40%"}
 knitr::include_graphics("imgs/prem-age-matrix.png")
 ```
 
@@ -880,29 +899,33 @@ knitr::include_graphics("imgs/prem-excel-data.png")
 ---
 # Contact matrices
 
-```{r show-prem-matrix-excel-data-oz, echo = FALSE}
+```{r show-prem-matrix-excel-data-oz, echo = FALSE, out.width = "75%"}
 knitr::include_graphics("imgs/prem-matrix-excel-australia.png")
+```
+
+---
+# Contact matrices
+
+```{r show-conmat-matric, echo = FALSE}
+knitr::include_graphics("imgs/patchwork-contact.png")
 ```
 
 
 ---
 # Contact matrices
 
-- facilitates fitting
+- `conmat` (name in progress) package facilitates contact matrix analysis
+- Nick Golding contributed statistical modelling
+- I implemented package design, infrastructure, tests, documentation
+- absolutely critical in recent national covid19 modelling to prime ministers cabinet
+- package available on [github](https://github.com/njtierney/conmat)
+
+???
 
 -  https://github.com/kieshaprem/synthetic-contact-matrices
 - 2021 https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005697#abstract0
 - 2017 https://journals.plos.org/ploscompbiol/article/authors?id=10.1371/journal.pcbi.1009098
 
-
----
-# Contact matrices
-
-
----
-# Contact matrices
-
-- {`conmat`}
 
 ---
 # RSEs are everywhere!
@@ -930,7 +953,7 @@ Month](https://cranlogs.r-pkg.org/badges/naniar)](https://CRAN.R-project.org/pac
   
 --
 
-- **Monash University** has recently started crediting statistical software.
+**Monash University** has recently started crediting statistical software!
 
 ---
 
@@ -1017,26 +1040,28 @@ knitr::include_graphics("imgs/ropensci.svg")
 
 ---
 
-# Getting credit: Awards
+# Getting credit: Awards / recognition
 
 .large[
-- [John Chambers Award For Statistical Software]()
-- [Di Cook Award for statistical Software (Vic + Tasmania)]()
+- [John M. Chambers Statistical Software Award](https://community.amstat.org/jointscsg-section/awards/john-m-chambers)
+- [Di Cook Award for statistical Software (Vic + Tasmania)](https://www.statsoc.org.au/Di-Cook-Award)
 - [ARDS: A national agenda for research software](https://zenodo.org/record/4940274)
 ]
 
 ---
 
-# What can you do?
-
-- 
-
----
-# How can we help sustain this?
+# What can you do? How can we help sustain this?
 
 - Research money for maintenance of existing software
 - Seed funding for new software ideas
-- If you are a reviewer and people write software, at least entertain the idea that 
+- Are you a reviewers? On grant committees? Heads of school?
+- Talk about the importance of software
+- **Count** software when reviewing applications and grants
+- **cite** software when you use it in your research!
+- Consider hiring RSEs!
+
+???
+
 it is valuable. I feel that I hear far too many people say, "oh yes, software is 
 super valuable", and then that's it - show us that it is valuable in the same
 way that people at Monash do. As much as early career researchers like me can
@@ -1047,9 +1072,13 @@ try and give talks like this, we can only impart so much change.
 
 # Take homes
 
-- Writing software is a legitimate form of research contribution
+- We need software to do research
+- Writing research software is a research contribution
+- Research software is critically underfunded and now acknowledged. 
+- If we don't acknowledge and support it, we will lose people
 - We need to think about how we fund and support those who write software
-- RSEs can help make researchers more productive
+- RSEs are one path to helping enable and facilitate research impact
+- We all need to work together to acknowledge software
 
 ---
 
@@ -1076,6 +1105,9 @@ try and give talks like this, we can only impart so much change.
 - [The Origins of SageMath; I am leaving academia to build a company, William Stein](https://www.youtube.com/watch?v=6eIoYMB_0Xc&t=1883s)
 - [Fernando Pérez's talk]()
 - [My twitter thread asking for resources](https://twitter.com/nj_tierney/status/1440562571447193608)
+- [100 papers published in JOSS](https://blog.joss.theoj.org/2020/08/1000-papers-published-in-joss)
+- [Journal of Open Source Software (JOSS):
+design and first-year review](https://peerj.com/articles/cs-147.pdf)
 
 ---
 
@@ -1096,7 +1128,7 @@ try and give talks like this, we can only impart so much change.
 # Learning more
 
 .large[
-`r icons::fontawesome("link")` [talk link]()
+`r icons::fontawesome("link")` [talk link](https://njt-rse-unsw.netlify.app)
 
 `r icons::fontawesome("twitter")` nj_tierney
 
@@ -1113,70 +1145,17 @@ try and give talks like this, we can only impart so much change.
 **End.**
 ]
 
----
-
-The point of this section is to discuss the various ways for these avenues to work 
-is to highlight JOSS, and also discuss some approaches that people take,
-and how some types of software don't always fit into these boxes,
-and that creating software means it is not done, things break, and you need
-to maintain that software, which there current'y aren't many incentives for you
-to do so
-
-
-
----
-
-2008-2012 
-
-- Undergraduate in Psychology
-  - Experiment Design
-  - Vision Science
-  - Desire to use statistics for public health
-
---
-
-2013 - 2017
-
-- PhD Statistics
-  - Exploratory data analysis
-  - Bayesian statistics
-
-<!-- - A lot of research in new statistical methods - imputation, inference, prediction -->
-<!-- - Not much research on how we explore our data, and the methods that we use to do this. -->
-
-2018 - 2020
-
-- Research Fellow / Lecturer at Monash
-  - Design and improve tools for (exploratory) data analysis
-  - Teach introduction to data analysis (ETC1010)
-
----
-    
-# EDA: Exploratory Data Analysis
-
-.large[
-> ...EDA is an approach to analyzing data sets to summarize their main characteristics, often with visual methods. (Wikipedia)
-
-John Tukey, Frederick Mosteller, Bill Cleveland, Dianne Cook, Heike Hoffman, Rob Hyndman, Hadley Wickham
-]
-
-
-
----
+???
 # What does academia value?
 
 > The incentive structures of academic statistics still signal that mathematical statistics and the creation of new models and inferential procedures are more valuable than work related to data manipulation, visualisation, and programming. This is reflected in the content of for-credit courses, qualifying exams, and standards for funding and promotion.... It can be very difficult to  present modern data scientific work as impactful scholarly activity, when the system still  defines that primarily as theory and methodology papers.
 
 -- Jenny Bryan & Hadley Wickham
 
----
-
 > The basic practices of modularity, testing, version control, packaging, and interface design are not mere niceties. They determine whether data scientific  products can actually be trusted and built upon, like a proof in mathematics
 
 -- Jenny Bryan & Hadley Wickham
 
-
----
 
 >  It doesn't matter how good a theoretical solution is, unless there are 
 practical tools that implement it. We must also recognise that humans are an essential part 
@@ -1187,7 +1166,6 @@ is an important part of this process
 -- Jenny Bryan & Hadley Wickham
 
 Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?
----
 
 # Having RSEs in your team
 
@@ -1198,18 +1176,3 @@ Data  Science:  A  Three  Ring  Circus  or  a  Big  Tent?
 - Examples of the types of RSE projects
   - What sort of skillset they need, and how it contributes to reserach impacrt
 - How would having an RSE inprove the impact of the work?
-
----
-# What can we do?
-
-- Hire RSEs!
-  - Here's how you can make the usecase...
-
-
----
-
-## `brolgar`
-
-```{r echo = FALSE}
-knitr::include_graphics("imgs/brolgar-spaghetti.png")
-```
