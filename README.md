@@ -19,7 +19,7 @@ Specifically, I'll discuss why we need to consider software as academic output,
 what a research software engineer does, how I work in a team of researchers, 
 and some of the practices I have put in place to maintain reproducibility. 
 
-# Slide available [here](njt-rse-unsw.netlify.app)
+# Slide available [here](https://njt-rse-unsw.netlify.app)
 
 # Take home messages 
 
