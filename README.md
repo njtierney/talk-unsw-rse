@@ -69,7 +69,7 @@ rOpenSci and JOSS
 
 Other Talks
 - [The Origins of SageMath; I am leaving academia to build a company, William Stein](https://www.youtube.com/watch?v=6eIoYMB_0Xc&t=1883s)
-- [Fernando Pérez's talk]()
+- [Fernando Pérez's talk](https://www.youtube.com/watch?v=Wpz79_S9KmM&feature=youtu.be)
 - [Heidi Seibold's UseR2021 Keynote talk](https://docs.google.com/presentation/d/1XQc2U2X8hiK43UzUi9IwvsvULxhVy0WzWSa_Kt4ZJv4/view#slide=id.gdbfb32d486_0_448))
 
 
