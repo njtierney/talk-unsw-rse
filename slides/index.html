@@ -159,7 +159,7 @@ coef(fit)
 
 ```
 ## (Intercept)           x  factor(z)2  factor(z)3 
-## -0.13905336  0.09075835  0.10754574  0.31957865
+##  0.15594165 -0.11102041 -0.17567974 -0.08798766
 ```
 
 ```r
@@ -167,8 +167,8 @@ fit |&gt; residuals() |&gt; summary()
 ```
 
 ```
-##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## -1.87857 -0.69352 -0.08595  0.00000  0.82208  2.23239
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -2.0688 -0.5884  0.0188  0.0000  0.5724  2.6394
 ```
 
 
@@ -214,8 +214,8 @@ leaflet() %&gt;%
 ]
 
 .right-plot[
-<div id="htmlwidget-054685f39c96f6b55099" style="width:936px;height:432px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-054685f39c96f6b55099">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[-36.852,174.768,null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},"R's birthplace",null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[-36.852,-36.852],"lng":[174.768,174.768]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ed2f3bda068b2bcfd39b" style="width:936px;height:432px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ed2f3bda068b2bcfd39b">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[-36.852,174.768,null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},"R's birthplace",null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[-36.852,-36.852],"lng":[174.768,174.768]}},"evals":[],"jsHooks":[]}</script>
 ]
 
 ???
@@ -264,7 +264,7 @@ Notation matters!
 ---
 # Abstraction of complexity: similarities between software and maths
 
-"Unmasking the theta method" (Rob Hyndmand &amp; Baki Billah)
+"Unmasking the theta method" (Rob Hyndman &amp; Baki Billah)
 
 &gt; The "Theta method" of forecasting performed particularly well in the M3-
 competition and is therefore of interest to forecast practitioners. The original description

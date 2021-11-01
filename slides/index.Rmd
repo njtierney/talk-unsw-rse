@@ -329,7 +329,7 @@ $10^6 * 10^4 * 10^7 * 10^4 = 10^{6 + 4 + 7 + 4}$
 ---
 # Abstraction of complexity: similarities between software and maths
 
-"Unmasking the theta method" (Rob Hyndmand & Baki Billah)
+"Unmasking the theta method" (Rob Hyndman & Baki Billah)
 
 > The "Theta method" of forecasting performed particularly well in the M3-
 competition and is therefore of interest to forecast practitioners. The original description
